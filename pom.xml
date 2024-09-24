@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2024 Obeo.
+ This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v2.0
+ which accompanies this distribution, and is available at
+ https://www.eclipse.org/legal/epl-2.0/
+
+ SPDX-License-Identifier: EPL-2.0
+
+ Contributors:
+     Obeo - initial API and implementation
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.easymod.web</groupId>
+	<artifactId>easymod</artifactId>
+	<version>2024.9.0</version>
+
+	<name>easymod</name>
+	<description>Easymod root module</description>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>backend/application/easymod-application-configuration</module>
+		<module>backend/views/easymod-diagram-fbs-view</module>
+		<module>backend/views/easymod-diagram-pbs-view</module>
+		<module>backend/views/easymod-diagram-fbstopbs-view</module>
+		<module>backend/views/easymod-methodology-form-view</module>
+		<module>backend/services/easymod-services</module>
+	</modules>
+
+</project>
