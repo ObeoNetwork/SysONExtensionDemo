@@ -6,13 +6,13 @@ library package SEIM {
     }
 
     interface def FunctionalFlow {
-        end source;
-        end target;
+        end source : FunctionPort;
+        end target : FunctionPort;
     }
 
     interface def LogicalFlow {
-        end source;
-        end target;
+        end source : ConstituentPort;
+        end target : ConstituentPort;
     }
 
     part def LogicalConstituent;

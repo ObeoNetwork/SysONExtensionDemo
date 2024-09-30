@@ -69,7 +69,7 @@ public class MethodologyFormView {
 
     private static final String ALLOCATION_DIAGRAM_ID = "5fb6a51c-bacd-395b-a021-ecf81e8ffa41";
 
-    private static final String FUNCTION_DIAGRAM_ELEMENT_ID = "e49a1c01-cb00-3743-b4c0-b80da83a56cf";
+    private static final String FUNCTION_DIAGRAM_ELEMENT_ID = "7da9f558-0a5f-3c4c-b1c2-db38114b767f";
 
     private static final String PRODUCT_DIAGRAM_ELEMENT_ID = "eab2d525-254e-3414-8116-49a8f4d64aad";
 
