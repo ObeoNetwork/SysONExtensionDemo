@@ -128,7 +128,7 @@ public class MethodologyFormServices {
      *            id of the representation to create
      * @param editingContext
      *            the editing context
-     * @return @return {@code true} if the representation has been created, {@code false} otherwise
+     * @return {@code true} if the representation has been created, {@code false} otherwise
      */
     public boolean createRepresentation(EObject object, String representationDescriptionId,
             IEditingContext editingContext) {
