@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.components.core.api.IEditingContext;
-import org.eclipse.sirius.components.emf.services.api.IEMFEditingContext;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.Element;
 
@@ -30,20 +29,19 @@ import org.eclipse.syson.sysml.Element;
 public class EasymodFBSService {
 
     public List<ActionUsage> getAllReachableActions(EObject eObject, IEditingContext editingContext) {
-        return extractNotifier(editingContext).stream()
+        // eObject.eResource().getAllContents().forEachRemaining(null);
+        return extractNotifier(eObject).stream()
                 .filter(notifier -> notifier instanceof ActionUsage)
                 .map(ActionUsage.class::cast)
+                .filter(actionUsage -> actionUsage.getType().stream().anyMatch(t -> t.getQualifiedName().equals("SEIM::Function")))
                 .toList();
 
     }
 
-    private List<Notifier> extractNotifier(IEditingContext editingContext) {
-        if (editingContext instanceof IEMFEditingContext emfEditingContext) {
-            ArrayList<Notifier> notifiersList = new ArrayList<>();
-            emfEditingContext.getDomain().getResourceSet().getAllContents().forEachRemaining(notifiersList::add);
-            return notifiersList;
-        }
-        return List.of();
+    private List<Notifier> extractNotifier(EObject eObject) {
+        ArrayList<Notifier> notifiersList = new ArrayList<>();
+        eObject.eResource().getAllContents().forEachRemaining(notifiersList::add);
+        return notifiersList;
     }
 
     public boolean isActionUsage(Element element) {
