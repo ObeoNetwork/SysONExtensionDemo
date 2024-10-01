@@ -14,8 +14,11 @@ package org.eclipse.easymod.diagram.fbs.services;
 
 import java.util.List;
 
+import org.eclipse.easymod.diagram.fbs.view.FBSViewsDiagramDescriptionProvider;
 import org.eclipse.sirius.components.view.View;
 import org.eclipse.sirius.components.view.emf.IJavaServiceProvider;
+import org.eclipse.syson.diagram.common.view.services.ViewToolService;
+import org.eclipse.syson.services.DeleteService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,7 +31,15 @@ public class EasyModFBSServiceProvider implements IJavaServiceProvider {
 
     @Override
     public List<Class<?>> getServiceClasses(View view) {
-        return List.of(EasymodFBSService.class);
+        var descriptions = view.getDescriptions();
+        var optDescription = descriptions.stream()
+                .filter(desc -> FBSViewsDiagramDescriptionProvider.DIAGRAM_NAME.equals(desc.getName()))
+                .findFirst();
+        if (optDescription.isPresent()) {
+            return List.of(DeleteService.class,
+                    EasymodFBSService.class,
+                    ViewToolService.class);
+        }
+        return List.of();
     }
-
 }

@@ -12,10 +12,15 @@
  *******************************************************************************/
 package org.eclipse.easymod.diagram.view;
 
+import org.eclipse.sirius.components.view.builder.generated.diagram.InsideLabelDescriptionBuilder;
+import org.eclipse.sirius.components.view.builder.generated.diagram.InsideLabelStyleBuilder;
 import org.eclipse.sirius.components.view.builder.providers.INodeDescriptionProvider;
+import org.eclipse.sirius.components.view.diagram.InsideLabelDescription;
+import org.eclipse.sirius.components.view.diagram.InsideLabelPosition;
+import org.eclipse.sirius.components.view.diagram.InsideLabelStyle;
 
 /**
- * Abstract node description provider.
+ * ABstract node description provider.
  * 
  * @author ebausson
  */
@@ -29,5 +34,15 @@ public abstract class AbstractEasymodNodeDescriptionProvider implements INodeDes
 
     protected String getBorderColor() {
         return getName() + "_BORDER_COLOR";
+    }
+
+    protected InsideLabelDescription generateDefaultLabel(String expression) {
+        InsideLabelStyle insideLabelStyle = new InsideLabelStyleBuilder().build();
+        insideLabelStyle.setBorderSize(0);
+        return new InsideLabelDescriptionBuilder()
+                .labelExpression(expression)
+                .style(insideLabelStyle)
+                .position(InsideLabelPosition.TOP_CENTER)
+                .build();
     }
 }

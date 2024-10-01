@@ -10,21 +10,19 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.diagram.utils;
+package org.eclipse.easymod.diagram.fbs.view;
 
-import org.springframework.stereotype.Service;
+import org.eclipse.syson.util.DescriptionNameGenerator;
 
 /**
- * Color service.
- * 
+ * Name generator used by all View description providers.
+ *
  * @author ebausson
  */
-@Service
-public class EasyModColorService {
+public class EasyModDescriptionNameGenerator extends DescriptionNameGenerator {
 
-    public static final String GREEN_BACKGROUND_COLOR = "green 100";
+    public EasyModDescriptionNameGenerator() {
+        super("");
+    }
 
-    public static final String BORDER_COLOR = "green 900"; // "Border Color";
-
-    public static final String EDGE_COLOR = "green 900";
 }

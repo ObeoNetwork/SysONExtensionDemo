@@ -14,7 +14,6 @@ package org.eclipse.easymod.diagram.view;
 
 import java.util.List;
 
-import org.eclipse.easymod.diagram.utils.EasyModColorService;
 import org.eclipse.sirius.components.view.ViewFactory;
 import org.eclipse.sirius.components.view.builder.IViewDiagramElementFinder;
 import org.eclipse.sirius.components.view.builder.generated.diagram.DiagramBuilders;
@@ -26,6 +25,7 @@ import org.eclipse.sirius.components.view.diagram.ArrangeLayoutDirection;
 import org.eclipse.sirius.components.view.diagram.DiagramElementDescription;
 import org.eclipse.sirius.components.view.diagram.DiagramFactory;
 import org.eclipse.sirius.components.view.diagram.DiagramPalette;
+import org.eclipse.sirius.components.view.diagram.DiagramToolSection;
 import org.eclipse.sirius.components.view.diagram.DropTool;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.SysMLMetamodelHelper;
@@ -55,6 +55,7 @@ public abstract class AbstractEasyModDiagramDescriptionProvider implements IRepr
     protected DiagramPalette createDiagramPalette(IViewDiagramElementFinder cache) {
         return this.diagramBuilderHelper.newDiagramPalette()
                 .dropTool(this.createDropTool())
+                .toolSections(this.createToolSections(cache))
                 .build();
     }
 
@@ -66,24 +67,21 @@ public abstract class AbstractEasyModDiagramDescriptionProvider implements IRepr
         dropTool.getBody().add(changeContext);
         return dropTool;
     }
-    
+
     protected String getDiagramPreconditionExpression() {
-        return "aql:true"; //TODO?
+        return "aql:true"; // TODO?
     }
 
     protected String getDomainType() {
         return SysMLMetamodelHelper.buildQualifiedName(SysmlPackage.eINSTANCE.getNamespace());
     }
 
-    protected IColorProvider getColorProvider() {
-        return EasyModColorService.getInstance();
-    }
-
     protected abstract String getName();
 
     protected abstract String getLabel();
 
-    protected abstract List<IDiagramElementDescriptionProvider<? extends DiagramElementDescription>> getDiagramElements();
+    protected abstract List<IDiagramElementDescriptionProvider<? extends DiagramElementDescription>> getDiagramElements(IColorProvider easyModColorProvider);
 
+    protected abstract DiagramToolSection[] createToolSections(IViewDiagramElementFinder cache);
 
 }
