@@ -29,4 +29,10 @@ public class EasyModColorService {
     public static final String FUNCTION_NODE_BORDER_COLOR = "green 900";
 
     public static final String FUNCTION_EDGE_COLOR = "green 900";
+
+    public static final String LOGICAL_CONSTITUENT_NODE_BACKGROUND_COLOR = "blue 100";
+
+    public static final String LOGICAL_CONSTITUENT_NODE_BORDER_COLOR = "blue 900";
+
+    public static final String LOGICAL_CONSTITUENT_EDGE_COLOR = "blue 900";
 }

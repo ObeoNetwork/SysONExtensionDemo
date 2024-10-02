@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.diagram.fbs.ressources;
+package org.eclipse.easymod.diagram.fbs;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,11 +73,9 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 .defaultWidthExpression("150")
                 .userResizable(UserResizableDirection.BOTH)
                 .keepAspectRatio(false)
-                .palette(diagramBuilderHelper.newNodePalette().build())
                 .style(this.createNodeStyle(EasyModColorService.FUNCTION_NODE_UNALLOCATED_BACKGROUND_COLOR, EasyModColorService.FUNCTION_NODE_BORDER_COLOR))
                 .conditionalStyles(createConditionalNodeStyle())
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
-                // .conditionalStyles(createConditionalAssumptionNodeStyle())
                 .build();
     }
 
@@ -87,7 +85,6 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 EasyModColorService.FUNCTION_NODE_ALLOCATED_BACKGROUND_COLOR,
                 EasyModColorService.FUNCTION_NODE_BORDER_COLOR,
                 AQLUtils.getSelfServiceCallExpression("isSEIMFunctionAllocated")));
-        // "aql:self.status=discovery::AssumptionStatus::VALID"));
         return styles.toArray(new ConditionalNodeStyle[0]);
     }
 

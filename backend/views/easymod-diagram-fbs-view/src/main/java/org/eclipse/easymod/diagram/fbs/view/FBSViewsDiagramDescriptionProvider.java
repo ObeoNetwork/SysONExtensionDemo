@@ -15,9 +15,9 @@ package org.eclipse.easymod.diagram.fbs.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.easymod.diagram.fbs.ressources.FunctionNodeDescriptionProvider;
-import org.eclipse.easymod.diagram.fbs.ressources.FunctionPortNodeDescriptionProvider;
-import org.eclipse.easymod.diagram.fbs.ressources.FunctionalFlowEdgeDescriptionProvider;
+import org.eclipse.easymod.diagram.fbs.FunctionNodeDescriptionProvider;
+import org.eclipse.easymod.diagram.fbs.FunctionPortNodeDescriptionProvider;
+import org.eclipse.easymod.diagram.fbs.FunctionalFlowEdgeDescriptionProvider;
 import org.eclipse.easymod.diagram.view.AbstractEasyModDiagramDescriptionProvider;
 import org.eclipse.easymod.diagram.view.EasyModDescriptionNameGenerator;
 import org.eclipse.sirius.components.view.ChangeContext;

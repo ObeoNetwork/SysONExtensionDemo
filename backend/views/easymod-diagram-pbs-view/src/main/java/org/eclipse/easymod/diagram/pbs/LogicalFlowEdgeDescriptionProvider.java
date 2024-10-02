@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.diagram.fbs.ressources;
+package org.eclipse.easymod.diagram.pbs;
 
 import java.util.Objects;
 
@@ -39,9 +39,9 @@ import org.eclipse.syson.util.SysMLMetamodelHelper;
  * 
  * @author ebausson
  */
-public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionProvider {
+public class LogicalFlowEdgeDescriptionProvider implements IEdgeDescriptionProvider {
 
-    private static final String EDGE_NAME = "FunctionalFlow";
+    private static final String EDGE_NAME = "LogicalFlow";
 
     protected final IColorProvider colorProvider;
 
@@ -51,7 +51,7 @@ public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionPr
 
     private final DiagramBuilders diagramBuilderHelper = new DiagramBuilders();
 
-    public FunctionalFlowEdgeDescriptionProvider(IColorProvider colorProvider) {
+    public LogicalFlowEdgeDescriptionProvider(IColorProvider colorProvider) {
         this.colorProvider = Objects.requireNonNull(colorProvider);
     }
 
@@ -61,7 +61,7 @@ public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionPr
         return this.diagramBuilderHelper.newEdgeDescription()
                 .domainType(domainType)
                 .name(EDGE_NAME)
-                .semanticCandidatesExpression(AQLUtils.getSelfServiceCallExpression("getFunctionalFlows", IEditingContext.EDITING_CONTEXT))
+                .semanticCandidatesExpression(AQLUtils.getSelfServiceCallExpression("getLogicalFlows", IEditingContext.EDITING_CONTEXT))
                 .sourceNodesExpression(AQLConstants.AQL_SELF + ".source")
                 .targetNodesExpression(AQLConstants.AQL_SELF + ".target")
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
@@ -98,7 +98,7 @@ public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionPr
     @Override
     public void link(DiagramDescription diagramDescription, IViewDiagramElementFinder cache) {
         var optEdgeDescription = cache.getEdgeDescription(EDGE_NAME);
-        var optPortUsageBorderNodeDescription = cache.getNodeDescription(FunctionPortNodeDescriptionProvider.NODE_NAME);
+        var optPortUsageBorderNodeDescription = cache.getNodeDescription(LogicalConstituentPortNodeDescriptionProvider.NODE_NAME);
 
         if (optEdgeDescription.isPresent() && optPortUsageBorderNodeDescription.isPresent()) {
             EdgeDescription edgeDescription = optEdgeDescription.get();
@@ -115,7 +115,7 @@ public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionPr
                 .edgeWidth(1)
                 .borderSize(0)
                 .lineStyle(LineStyle.SOLID)
-                .color(colorProvider.getColor(EasyModColorService.FUNCTION_EDGE_COLOR))
+                .color(colorProvider.getColor(EasyModColorService.LOGICAL_CONSTITUENT_EDGE_COLOR))
                 .sourceArrowStyle(ArrowStyle.NONE)
                 .targetArrowStyle(ArrowStyle.NONE)
                 .build();
