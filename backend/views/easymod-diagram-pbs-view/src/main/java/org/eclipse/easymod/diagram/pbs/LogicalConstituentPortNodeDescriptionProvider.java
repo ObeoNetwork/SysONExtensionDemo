@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.diagram.fbs.ressources;
+package org.eclipse.easymod.diagram.pbs;
 
 import java.util.List;
 
@@ -28,23 +28,23 @@ import org.eclipse.syson.util.AQLUtils;
 import org.eclipse.syson.util.SysMLMetamodelHelper;
 
 /**
- * FunctionPort node description provider.
+ * LogicalConstituentPort node description provider.
  * 
  * @author ebausson
  */
-public class FunctionPortNodeDescriptionProvider extends AbstractNodeDescriptionProvider {
+public class LogicalConstituentPortNodeDescriptionProvider extends AbstractNodeDescriptionProvider {
 
-    public static final String NODE_NAME = "FunctionPort";
+    public static final String NODE_NAME = "LogicalConstituentPort";
 
     public static final String UNSET_PORT_IMAGE_PATH = "/images/FunctionPortUnsetArrow.svg";
 
     public static final String INOUT_PORT_IMAGE_PATH = "/images/FunctionPortInOutArrow.svg";
 
-    public static final String IN_PORT_IMAGE_PATH = "/images/FunctionPortInArrow.svg";
+    public static final String IN_PORT_IMAGE_PATH = "/images/LogicalConstituentPortInArrow.svg";
 
-    public static final String OUT_PORT_IMAGE_PATH = "/images/FunctionPortOutArrow.svg";
+    public static final String OUT_PORT_IMAGE_PATH = "/images/LogicalConstituentPortOutArrow.svg";
 
-    public FunctionPortNodeDescriptionProvider(IColorProvider colorProvider) {
+    public LogicalConstituentPortNodeDescriptionProvider(IColorProvider colorProvider) {
         super(colorProvider);
     }
 
@@ -61,7 +61,7 @@ public class FunctionPortNodeDescriptionProvider extends AbstractNodeDescription
                 .userResizable(UserResizableDirection.NONE)
                 .palette(diagramBuilderHelper.newNodePalette().build())
                 .style(this.createPortNodeStyleDescription(UNSET_PORT_IMAGE_PATH))
-                .conditionalStyles(this.createFunctionPortConditionalNodeStyles().toArray(ConditionalNodeStyle[]::new))
+                .conditionalStyles(this.createLogicalConstituentPortConditionalNodeStyles().toArray(ConditionalNodeStyle[]::new))
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
                 .build();
     }
@@ -86,7 +86,7 @@ public class FunctionPortNodeDescriptionProvider extends AbstractNodeDescription
                 .build();
     }
 
-    private List<ConditionalNodeStyle> createFunctionPortConditionalNodeStyles() {
+    private List<ConditionalNodeStyle> createLogicalConstituentPortConditionalNodeStyles() {
         return List.of(
                 this.diagramBuilderHelper.newConditionalNodeStyle()
                         .condition(AQLUtils.getSelfServiceCallExpression("isInFeature"))

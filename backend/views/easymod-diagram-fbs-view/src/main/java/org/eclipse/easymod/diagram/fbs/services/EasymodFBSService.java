@@ -108,7 +108,7 @@ public class EasymodFBSService {
      * @return the new {@link ActionUsage} typed by SEIM::Function.
      */
     public ActionUsage createFunction(EObject parent, IEditingContext editingContext) {
-        Optional<ActionDefinition> optSeimFunctionDefinition = getOptionalSiemFunction(parent);
+        Optional<ActionDefinition> optSeimFunctionDefinition = getOptionalSiemFunctionDefinition(parent);
         if (parent == null || optSeimFunctionDefinition.isEmpty()) {
             return null;
         }
@@ -188,7 +188,7 @@ public class EasymodFBSService {
         return newInterfaceUsage;
     }
 
-    private Optional<ActionDefinition> getOptionalSiemFunction(EObject sourceElement) {
+    private Optional<ActionDefinition> getOptionalSiemFunctionDefinition(EObject sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof ActionDefinition)
                 .map(ActionDefinition.class::cast)
