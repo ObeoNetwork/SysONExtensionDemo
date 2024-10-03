@@ -66,15 +66,15 @@
     
     <dependencies>
     	<dependency>
-    		<groupId>org.eclipse.syson</groupId>
-    		<artifactId>syson-diagram-common-view</artifactId>
-    		<version>${sirius.web.version}</version>
-    	</dependency>
-    	<dependency>
     		<groupId>org.eclipse.easymod.web</groupId>
     		<artifactId>easymod-diagram-abstract-view</artifactId>
     		<version>2024.9.0</version>
     	</dependency>
+		<dependency>
+			<groupId>org.eclipse.syson</groupId>
+			<artifactId>syson-diagram-common-view</artifactId>
+			<version>2024.9.0</version>
+		</dependency>
     </dependencies>
 
     <build>
