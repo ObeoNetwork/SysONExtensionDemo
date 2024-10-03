@@ -53,6 +53,5 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="/syson-diagram-common-view"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
