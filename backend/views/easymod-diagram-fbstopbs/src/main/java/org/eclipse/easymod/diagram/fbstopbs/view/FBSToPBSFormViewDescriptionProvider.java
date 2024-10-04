@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.eclipse.easymod.diagram.fbstopbs.view;
 
+import org.eclipse.sirius.components.view.RepresentationDescription;
+import org.eclipse.sirius.components.view.builder.providers.IColorProvider;
 import org.eclipse.sirius.components.view.builder.providers.IRepresentationDescriptionProvider;
 import org.eclipse.syson.diagram.common.view.IViewDescriptionProvider;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @author ebausson
  */
 @Service
-public class FBSToPBSViewDescriptionProvider implements IViewDescriptionProvider {
+public class FBSToPBSFormViewDescriptionProvider implements IViewDescriptionProvider, IRepresentationDescriptionProvider {
 
     @Override
     public String getViewDiagramId() {
@@ -31,7 +33,12 @@ public class FBSToPBSViewDescriptionProvider implements IViewDescriptionProvider
 
     @Override
     public IRepresentationDescriptionProvider getRepresentationDescriptionProvider() {
-        return new FBSToPBSViewsDiagramDescriptionProvider();
+        return this;
+    }
+
+    @Override
+    public RepresentationDescription create(IColorProvider colorProvider) {
+        return new FBSToPBSFormView().createFormDescription();
     }
 
 }
