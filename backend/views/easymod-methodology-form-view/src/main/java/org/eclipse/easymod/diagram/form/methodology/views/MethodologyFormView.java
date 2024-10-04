@@ -75,9 +75,6 @@ public class MethodologyFormView {
 
     private static final String ALLOCATION_DIAGRAM_ELEMENT_ID = "290a3846-1c81-3c6a-8eb0-a7def302fa11";
 
-    public MethodologyFormView() {
-    }
-
     public FormDescription createFormDescription() {
         String domainType = SysMLMetamodelHelper.buildQualifiedName(SysmlPackage.eINSTANCE.getNamespace());
 

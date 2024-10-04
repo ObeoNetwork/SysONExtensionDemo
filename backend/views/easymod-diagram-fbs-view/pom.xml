@@ -67,7 +67,7 @@
     <dependencies>
     	<dependency>
     		<groupId>org.eclipse.easymod.web</groupId>
-    		<artifactId>easymod-diagram-abstract-view</artifactId>
+    		<artifactId>easymod-services</artifactId>
     		<version>2024.9.0</version>
     	</dependency>
     </dependencies>

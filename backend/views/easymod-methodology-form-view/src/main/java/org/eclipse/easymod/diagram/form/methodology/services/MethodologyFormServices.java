@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.services.diagram;
+package org.eclipse.easymod.diagram.form.methodology.services;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.util.Timeout;
-import org.eclipse.easymod.services.utils.CreateRepresentationVariables;
+import org.eclipse.easymod.diagram.form.methodology.utils.CreateRepresentationVariables;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.components.collaborative.dto.CreateRepresentationInput;
 import org.eclipse.sirius.components.core.RepresentationMetadata;
