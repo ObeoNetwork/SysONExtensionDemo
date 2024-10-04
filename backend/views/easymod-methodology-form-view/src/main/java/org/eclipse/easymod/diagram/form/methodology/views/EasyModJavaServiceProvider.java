@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.services.diagram;
+package org.eclipse.easymod.diagram.form.methodology.views;
 
 import java.util.ArrayList;
 import java.util.List;
