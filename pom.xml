@@ -24,12 +24,11 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>backend/application/easymod-application-configuration</module>
+		<module>backend/services/easymod-services</module>
 		<module>backend/views/easymod-diagram-fbs-view</module>
 		<module>backend/views/easymod-diagram-pbs-view</module>
-		<module>backend/views/easymod-diagram-fbstopbs-view</module>
+		<module>backend/views/easymod-diagram-fbstopbs</module>
 		<module>backend/views/easymod-methodology-form-view</module>
-		<module>backend/services/easymod-services</module>
 	</modules>
 
 </project>
