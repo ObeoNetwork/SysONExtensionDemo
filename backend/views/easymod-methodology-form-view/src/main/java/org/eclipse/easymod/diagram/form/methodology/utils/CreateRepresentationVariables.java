@@ -10,7 +10,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.easymod.services.utils;
+package org.eclipse.easymod.diagram.form.methodology.utils;
 
 import org.eclipse.sirius.components.collaborative.dto.CreateRepresentationInput;
 

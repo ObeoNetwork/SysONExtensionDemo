@@ -12,35 +12,26 @@
  *******************************************************************************/
 package org.eclipse.easymod.diagram.pbs.services;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Predicate;
 
-import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.easymod.diagram.utils.EasyModConstants;
+import org.eclipse.easymod.services.diagram.EasyModCommonServices;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.components.collaborative.diagrams.api.IDiagramContext;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IObjectService;
 import org.eclipse.sirius.components.diagrams.Node;
-import org.eclipse.syson.services.ElementInitializerSwitch;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.AllocationDefinition;
 import org.eclipse.syson.sysml.AllocationUsage;
-import org.eclipse.syson.sysml.Definition;
 import org.eclipse.syson.sysml.Element;
-import org.eclipse.syson.sysml.Feature;
 import org.eclipse.syson.sysml.FeatureDirectionKind;
 import org.eclipse.syson.sysml.FeatureMembership;
-import org.eclipse.syson.sysml.FeatureTyping;
 import org.eclipse.syson.sysml.InterfaceDefinition;
 import org.eclipse.syson.sysml.InterfaceUsage;
-import org.eclipse.syson.sysml.Membership;
 import org.eclipse.syson.sysml.Namespace;
 import org.eclipse.syson.sysml.OwningMembership;
 import org.eclipse.syson.sysml.Package;
@@ -56,17 +47,7 @@ import org.eclipse.syson.sysml.Usage;
  * 
  * @author ebausson
  */
-public class EasymodPBSService {
-
-    private static final String LOGICAL_CONSTITUENT_QUALIFIED_NAME = "SEIM::LogicalConstituent";
-
-    private static final String LOGICAL_CONSTITUENT_PORT_QUALIFIED_NAME = "SEIM::ConstituentPort";
-
-    private static final String LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME = "SEIM::LogicalFlow";
-
-    private static final String SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME = "SEIM::AllocatedFunction";
-
-    private final ElementInitializerSwitch elementInitializerSwitch = new ElementInitializerSwitch();
+public class EasymodPBSService extends EasyModCommonServices {
 
     private IObjectService objectService;
 
@@ -112,7 +93,7 @@ public class EasymodPBSService {
         return extractNotifier(eObject).stream()
                 .filter(notifier -> notifier instanceof InterfaceUsage)
                 .map(InterfaceUsage.class::cast)
-                .filter(isTypedWith(LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME))
                 .toList();
     }
 
@@ -162,11 +143,8 @@ public class EasymodPBSService {
             owningMembership.getOwnedRelatedElement().add(newpartUsage);
         }
         newpartUsage.setDeclaredName("myLogicalConstituent");
+        setType(optSeimLogicalConstituentDefinition.get(), newpartUsage);
 
-        FeatureTyping partUsageFeatureTyping = SysmlFactory.eINSTANCE.createFeatureTyping();
-        this.elementInitializer(partUsageFeatureTyping);
-        partUsageFeatureTyping.setType(optSeimLogicalConstituentDefinition.get());
-        newpartUsage.getOwnedRelationship().add(partUsageFeatureTyping);
         return newpartUsage;
     }
 
@@ -220,67 +198,10 @@ public class EasymodPBSService {
         PortUsage newSourcePortUsage = createPortUsage(optSeimLogicalConstituentalPortDefinition.get(), source, FeatureDirectionKind.IN);
         PortUsage newTargetPortUsage = createPortUsage(optSeimLogicalConstituentalPortDefinition.get(), target, FeatureDirectionKind.OUT);
 
-        InterfaceUsage newInterfaceUsage = createInterfaceUsage(optSeimLogicalConstituentFlowDefinition.get(), namespace);
+        InterfaceUsage newInterfaceUsage = createInterfaceUsage(optSeimLogicalConstituentFlowDefinition.get(), namespace, "LogicalFlow");
         newInterfaceUsage.getSource().add(newSourcePortUsage);
         newInterfaceUsage.getTarget().add(newTargetPortUsage);
         return newInterfaceUsage;
-    }
-
-    private Optional<PartDefinition> getOptionalSiemLogicalConstituentDefinition(EObject sourceElement) {
-        return extractGlobalNotifier(sourceElement).stream()
-                .filter(notifier -> notifier instanceof PartDefinition)
-                .map(PartDefinition.class::cast)
-                .filter(functionDef -> LOGICAL_CONSTITUENT_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
-                .findFirst();
-    }
-
-    private Optional<PortDefinition> getOptionalLogicalConstituentPortDefinition(Element sourceElement) {
-        return extractGlobalNotifier(sourceElement).stream()
-                .filter(notifier -> notifier instanceof PortDefinition)
-                .map(PortDefinition.class::cast)
-                .filter(portDef -> LOGICAL_CONSTITUENT_PORT_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
-                .findFirst();
-    }
-
-    private Optional<InterfaceDefinition> getOptionalLogicalConstituentFlowDefinition(Element sourceElement) {
-        return extractGlobalNotifier(sourceElement).stream()
-                .filter(notifier -> notifier instanceof InterfaceDefinition)
-                .map(InterfaceDefinition.class::cast)
-                .filter(portDef -> LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
-                .findFirst();
-    }
-
-    private PortUsage createPortUsage(PortDefinition portDefinition, PartUsage parent, FeatureDirectionKind direction) {
-        FeatureMembership borderNodeFeatureMembership = SysmlFactory.eINSTANCE.createFeatureMembership();
-        parent.getOwnedRelationship().add(borderNodeFeatureMembership);
-
-        PortUsage portUsage = SysmlFactory.eINSTANCE.createPortUsage();
-        this.elementInitializer(portUsage);
-        borderNodeFeatureMembership.getOwnedRelatedElement().add(portUsage);
-
-        FeatureTyping featureTyping = SysmlFactory.eINSTANCE.createFeatureTyping();
-        featureTyping.setType(portDefinition);
-        portUsage.getOwnedRelationship().add(featureTyping);
-
-        portUsage.setDirection(direction);
-
-        return portUsage;
-    }
-
-    private InterfaceUsage createInterfaceUsage(InterfaceDefinition interfaceDefinition, Namespace parent) {
-        FeatureMembership featureMembership = SysmlFactory.eINSTANCE.createFeatureMembership();
-        parent.getOwnedRelationship().add(featureMembership);
-
-        InterfaceUsage interfaceUsage = SysmlFactory.eINSTANCE.createInterfaceUsage();
-        interfaceUsage.setDeclaredName("LogicalFlow");
-        featureMembership.getOwnedRelatedElement().add(interfaceUsage);
-
-        FeatureTyping interfaceFeatureTyping = SysmlFactory.eINSTANCE.createFeatureTyping();
-        this.elementInitializer(interfaceFeatureTyping);
-        interfaceFeatureTyping.setType(interfaceDefinition);
-        interfaceUsage.getOwnedRelationship().add(interfaceFeatureTyping);
-
-        return interfaceUsage;
     }
 
     /**
@@ -325,11 +246,7 @@ public class EasymodPBSService {
         allocationUsage.setDeclaredName("myAllocatedFunction");
         featureMembership.getOwnedRelatedElement().add(allocationUsage);
 
-        FeatureTyping interfaceFeatureTyping = SysmlFactory.eINSTANCE.createFeatureTyping();
-        this.elementInitializer(interfaceFeatureTyping);
-        interfaceFeatureTyping.setType(seimAllocationDefinition);
-        allocationUsage.getOwnedRelationship().add(interfaceFeatureTyping);
-
+        setType(seimAllocationDefinition, allocationUsage);
         allocationUsage.getSource().add(function);
         allocationUsage.getTarget().add(part);
 
@@ -340,23 +257,9 @@ public class EasymodPBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof AllocationDefinition)
                 .map(AllocationDefinition.class::cast)
-                .filter(allocationDefinition -> SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME.equals(allocationDefinition.getQualifiedName()))
+                .filter(allocationDefinition -> EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME.equals(allocationDefinition.getQualifiedName()))
                 .findFirst()
                 .orElse(null);
-    }
-
-    /**
-     * Direct edit the label of a given element.
-     * 
-     * @param element
-     *            element with the label to edit
-     * @param newLabel
-     *            the new label of the element
-     * @return the element with the new label.
-     */
-    public Element directEditEasyModNode(Element element, String newLabel) {
-        element.setDeclaredName(newLabel);
-        return element;
     }
 
     /**
@@ -370,12 +273,8 @@ public class EasymodPBSService {
         return extractNotifier(seimLogicalConstituent).stream()
                 .filter(notifier -> notifier instanceof AllocationUsage)
                 .map(AllocationUsage.class::cast)
-                .filter(isTypedWith(SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
                 .anyMatch(allocatedLogicalConstituent -> allocatedLogicalConstituent.getTarget().contains(seimLogicalConstituent));
-    }
-
-    private Predicate<? super org.eclipse.syson.sysml.Feature> isTypedWith(String qualifiedName) {
-        return element -> element.getType().stream().anyMatch(t -> t != null && qualifiedName != null && qualifiedName.equals(t.getQualifiedName()));
     }
 
     /**
@@ -393,81 +292,14 @@ public class EasymodPBSService {
         return pkg.getOwnedMember().stream()
                 .filter(e -> e instanceof PartUsage)
                 .map(PartUsage.class::cast)
-                .filter(isTypedWith(LOGICAL_CONSTITUENT_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_QUALIFIED_NAME))
                 .toList();
 
     }
 
     private List<PartUsage> getSubLogicalConstituents(Usage usage) {
-        return usage.getNestedPart().stream().filter(isTypedWith(LOGICAL_CONSTITUENT_QUALIFIED_NAME))
+        return usage.getNestedPart().stream().filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_QUALIFIED_NAME))
                 .toList();
-    }
-
-    private List<Notifier> extractNotifier(EObject eObject) {
-        ArrayList<Notifier> notifiersList = new ArrayList<>();
-        eObject.eResource().getAllContents().forEachRemaining(notifiersList::add);
-        return notifiersList;
-    }
-
-    private List<Notifier> extractGlobalNotifier(EObject eObject) {
-        ArrayList<Notifier> notifiersList = new ArrayList<>();
-        eObject.eResource().getResourceSet().getAllContents().forEachRemaining(notifiersList::add);
-        return notifiersList;
-    }
-
-    private Namespace getClosestContainingDefinitionOrPackageFrom(Element element) {
-        var owner = element.eContainer();
-        while (!(owner instanceof Package || owner instanceof Definition) && owner != null) {
-            owner = owner.eContainer();
-        }
-        return (Namespace) owner;
-    }
-
-    private Element elementInitializer(Element element) {
-        return this.elementInitializerSwitch.doSwitch(element);
-    }
-
-    public boolean isInFeature(Feature feature) {
-        return FeatureDirectionKind.IN.equals(feature.getDirection());
-    }
-
-    public boolean isOutFeature(Feature feature) {
-        return FeatureDirectionKind.OUT.equals(feature.getDirection());
-    }
-
-    public boolean isInOutFeature(Feature feature) {
-        return FeatureDirectionKind.INOUT.equals(feature.getDirection());
-    }
-
-    /**
-     * Delete the given {@link Element} and its container if it's a {@link Membership}. Also delete related port.
-     *
-     * @param element
-     *            the {@link Element} to delete.
-     * @return the deleted element.
-     */
-    public EObject deleteFlow(InterfaceUsage interfaceUsage) {
-        Set<EObject> elementsToDelete = new HashSet<>();
-        elementsToDelete.add(interfaceUsage);
-        if (interfaceUsage.eContainer() instanceof Membership membership) {
-            elementsToDelete.add(membership);
-        }
-        EList<Element> sources = interfaceUsage.getSource();
-        elementsToDelete.addAll(sources);
-        for (Element source : sources) {
-            if (source.eContainer() instanceof Membership membership) {
-                elementsToDelete.add(membership);
-            }
-        }
-        EList<Element> targets = interfaceUsage.getTarget();
-        elementsToDelete.addAll(targets);
-        for (Element target : targets) {
-            if (target.eContainer() instanceof Membership membership) {
-                elementsToDelete.add(membership);
-            }
-        }
-        EcoreUtil.removeAll(elementsToDelete);
-        return interfaceUsage;
     }
 
 }
