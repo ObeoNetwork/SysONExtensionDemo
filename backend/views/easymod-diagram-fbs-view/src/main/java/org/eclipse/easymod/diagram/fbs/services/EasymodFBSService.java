@@ -19,12 +19,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.eclipse.easymod.diagram.utils.EasyModConstants;
+import org.eclipse.easymod.services.diagram.EasyModCommonServices;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.components.core.api.IEditingContext;
-import org.eclipse.syson.services.ElementInitializerSwitch;
 import org.eclipse.syson.sysml.ActionDefinition;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.AllocationUsage;
@@ -50,17 +51,7 @@ import org.eclipse.syson.sysml.Usage;
  * 
  * @author ebausson
  */
-public class EasymodFBSService {
-
-    private static final String FUNCTION_QUALIFIED_NAME = "SEIM::Function";
-
-    private static final String FUNCTION_PORT_QUALIFIED_NAME = "SEIM::FunctionPort";
-
-    private static final String FUNCTION_FLOW_QUALIFIED_NAME = "SEIM::FunctionalFlow";
-
-    private static final String SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME = "SEIM::AllocatedFunction";
-
-    private final ElementInitializerSwitch elementInitializerSwitch = new ElementInitializerSwitch();
+public class EasymodFBSService extends EasyModCommonServices {
 
     /**
      * Get list of {@link ActionUsage} typed by SEIM::Function contained by a given eObject.
@@ -94,7 +85,7 @@ public class EasymodFBSService {
         return extractNotifier(eObject).stream()
                 .filter(notifier -> notifier instanceof InterfaceUsage)
                 .map(InterfaceUsage.class::cast)
-                .filter(isTypedWith(FUNCTION_FLOW_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.FUNCTION_FLOW_QUALIFIED_NAME))
                 .toList();
     }
 
@@ -192,7 +183,7 @@ public class EasymodFBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof ActionDefinition)
                 .map(ActionDefinition.class::cast)
-                .filter(functionDef -> FUNCTION_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
+                .filter(functionDef -> EasyModConstants.FUNCTION_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -200,7 +191,7 @@ public class EasymodFBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof PortDefinition)
                 .map(PortDefinition.class::cast)
-                .filter(portDef -> FUNCTION_PORT_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
+                .filter(portDef -> EasyModConstants.FUNCTION_PORT_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -208,7 +199,7 @@ public class EasymodFBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof InterfaceDefinition)
                 .map(InterfaceDefinition.class::cast)
-                .filter(portDef -> FUNCTION_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
+                .filter(portDef -> EasyModConstants.FUNCTION_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -245,10 +236,6 @@ public class EasymodFBSService {
         return interfaceUsage;
     }
 
-    public boolean isActionUsage(Element element) {
-        return element instanceof ActionUsage;
-    }
-
     /**
      * Direct edit the label of a given element.
      * 
@@ -276,7 +263,7 @@ public class EasymodFBSService {
         return extractNotifier(seimFunction).stream()
                 .filter(notifier -> notifier instanceof AllocationUsage)
                 .map(AllocationUsage.class::cast)
-                .filter(isTypedWith(SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
                 .anyMatch(allocatedFunction -> allocatedFunction.getSource().contains(seimFunction));
     }
 
@@ -297,13 +284,13 @@ public class EasymodFBSService {
 
     private List<ActionUsage> getPackageFunctions(Package pkg) {
         return pkg.getOwnedMember().stream().filter(e -> e instanceof ActionUsage).map(ActionUsage.class::cast)
-                .filter(isTypedWith(FUNCTION_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.FUNCTION_QUALIFIED_NAME))
                 .toList();
 
     }
 
     private List<ActionUsage> getSubFunctions(Usage usage) {
-        return usage.getNestedAction().stream().filter(isTypedWith(FUNCTION_QUALIFIED_NAME))
+        return usage.getNestedAction().stream().filter(isTypedWith(EasyModConstants.FUNCTION_QUALIFIED_NAME))
                 .toList();
     }
 
@@ -325,10 +312,6 @@ public class EasymodFBSService {
             owner = owner.eContainer();
         }
         return (Namespace) owner;
-    }
-
-    private Element elementInitializer(Element element) {
-        return this.elementInitializerSwitch.doSwitch(element);
     }
 
     public boolean isInFeature(Feature feature) {

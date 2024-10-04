@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.eclipse.easymod.diagram.utils.EasyModConstants;
+import org.eclipse.easymod.services.diagram.EasyModCommonServices;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +30,6 @@ import org.eclipse.sirius.components.collaborative.diagrams.api.IDiagramContext;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IObjectService;
 import org.eclipse.sirius.components.diagrams.Node;
-import org.eclipse.syson.services.ElementInitializerSwitch;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.AllocationDefinition;
 import org.eclipse.syson.sysml.AllocationUsage;
@@ -56,17 +57,7 @@ import org.eclipse.syson.sysml.Usage;
  * 
  * @author ebausson
  */
-public class EasymodPBSService {
-
-    private static final String LOGICAL_CONSTITUENT_QUALIFIED_NAME = "SEIM::LogicalConstituent";
-
-    private static final String LOGICAL_CONSTITUENT_PORT_QUALIFIED_NAME = "SEIM::ConstituentPort";
-
-    private static final String LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME = "SEIM::LogicalFlow";
-
-    private static final String SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME = "SEIM::AllocatedFunction";
-
-    private final ElementInitializerSwitch elementInitializerSwitch = new ElementInitializerSwitch();
+public class EasymodPBSService extends EasyModCommonServices {
 
     private IObjectService objectService;
 
@@ -112,7 +103,7 @@ public class EasymodPBSService {
         return extractNotifier(eObject).stream()
                 .filter(notifier -> notifier instanceof InterfaceUsage)
                 .map(InterfaceUsage.class::cast)
-                .filter(isTypedWith(LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME))
                 .toList();
     }
 
@@ -230,7 +221,7 @@ public class EasymodPBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof PartDefinition)
                 .map(PartDefinition.class::cast)
-                .filter(functionDef -> LOGICAL_CONSTITUENT_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
+                .filter(functionDef -> EasyModConstants.LOGICAL_CONSTITUENT_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -238,7 +229,7 @@ public class EasymodPBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof PortDefinition)
                 .map(PortDefinition.class::cast)
-                .filter(portDef -> LOGICAL_CONSTITUENT_PORT_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
+                .filter(portDef -> EasyModConstants.LOGICAL_CONSTITUENT_PORT_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -246,7 +237,7 @@ public class EasymodPBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof InterfaceDefinition)
                 .map(InterfaceDefinition.class::cast)
-                .filter(portDef -> LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
+                .filter(portDef -> EasyModConstants.LOGICAL_CONSTITUENT_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
                 .findFirst();
     }
 
@@ -340,7 +331,7 @@ public class EasymodPBSService {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof AllocationDefinition)
                 .map(AllocationDefinition.class::cast)
-                .filter(allocationDefinition -> SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME.equals(allocationDefinition.getQualifiedName()))
+                .filter(allocationDefinition -> EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME.equals(allocationDefinition.getQualifiedName()))
                 .findFirst()
                 .orElse(null);
     }
@@ -370,7 +361,7 @@ public class EasymodPBSService {
         return extractNotifier(seimLogicalConstituent).stream()
                 .filter(notifier -> notifier instanceof AllocationUsage)
                 .map(AllocationUsage.class::cast)
-                .filter(isTypedWith(SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
                 .anyMatch(allocatedLogicalConstituent -> allocatedLogicalConstituent.getTarget().contains(seimLogicalConstituent));
     }
 
@@ -393,13 +384,13 @@ public class EasymodPBSService {
         return pkg.getOwnedMember().stream()
                 .filter(e -> e instanceof PartUsage)
                 .map(PartUsage.class::cast)
-                .filter(isTypedWith(LOGICAL_CONSTITUENT_QUALIFIED_NAME))
+                .filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_QUALIFIED_NAME))
                 .toList();
 
     }
 
     private List<PartUsage> getSubLogicalConstituents(Usage usage) {
-        return usage.getNestedPart().stream().filter(isTypedWith(LOGICAL_CONSTITUENT_QUALIFIED_NAME))
+        return usage.getNestedPart().stream().filter(isTypedWith(EasyModConstants.LOGICAL_CONSTITUENT_QUALIFIED_NAME))
                 .toList();
     }
 
@@ -421,10 +412,6 @@ public class EasymodPBSService {
             owner = owner.eContainer();
         }
         return (Namespace) owner;
-    }
-
-    private Element elementInitializer(Element element) {
-        return this.elementInitializerSwitch.doSwitch(element);
     }
 
     public boolean isInFeature(Feature feature) {
