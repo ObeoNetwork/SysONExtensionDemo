@@ -162,6 +162,11 @@
     		<artifactId>syson-diagram-common-view</artifactId>
     		<version>${sirius.web.version}</version>
     	</dependency>
+    	<dependency>
+    		<groupId>org.eclipse.easymod.web</groupId>
+    		<artifactId>easymod-services</artifactId>
+    		<version>2024.9.0</version>
+    	</dependency>
     </dependencies>
 
     <build>
