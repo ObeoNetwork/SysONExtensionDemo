@@ -21,8 +21,8 @@
         <version>3.3.1</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.eclipse.easymod.web</groupId>
-    <artifactId>easymod-diagram-fbstopbs-view</artifactId>
+    <groupId>org.eclipse.syson.easymod</groupId>
+    <artifactId>form-fbstopbs</artifactId>
     <version>2024.9.0</version>
     <name>easymod-diagram-fbstopbs-view</name>
     <description>EasyMod FBS To PBS diagram view</description>
@@ -44,7 +44,7 @@
         </repository>
         <repository>
             <id>github-sirius-components</id>
-            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-web</url>
+            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-components</url>
         </repository>
 		<repository>
 			<id>github-sirius-emfjson</id>

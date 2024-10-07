@@ -11,12 +11,13 @@
  Contributors:
      Obeo - initial API and implementation
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.eclipse.easymod.web</groupId>
-	<artifactId>easymod</artifactId>
+	<groupId>org.eclipse.syson.easymod</groupId>
+	<artifactId>easymod-parent</artifactId>
 	<version>2024.9.0</version>
 
 	<name>easymod</name>
@@ -29,6 +30,19 @@
 		<module>backend/views/easymod-diagram-pbs-view</module>
 		<module>backend/views/easymod-diagram-fbstopbs</module>
 		<module>backend/views/easymod-methodology-form-view</module>
+		<module>distribution</module>
 	</modules>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>3.7.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>

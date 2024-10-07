@@ -21,8 +21,8 @@
         <version>3.3.1</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.eclipse.easymod.web</groupId>
-    <artifactId>easymod-methodology-form-view</artifactId>
+    <groupId>org.eclipse.syson.easymod</groupId>
+    <artifactId>form-methodology</artifactId>
     <version>2024.9.0</version>
     <name>easymod-methodology-form-view</name>
     <description>Form to guide the user.</description>
@@ -44,7 +44,7 @@
         </repository>
         <repository>
             <id>github-sirius-components</id>
-            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-web</url>
+            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-components</url>
         </repository>
 		<repository>
 			<id>github-sirius-emfjson</id>
@@ -163,7 +163,7 @@
     		<version>${sirius.web.version}</version>
     	</dependency>
     	<dependency>
-    		<groupId>org.eclipse.easymod.web</groupId>
+    		<groupId>org.eclipse.syson.easymod</groupId>
     		<artifactId>easymod-services</artifactId>
     		<version>2024.9.0</version>
     	</dependency>
