@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.eclipse.syson.easymod.diagram.form.methodology.services;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -46,14 +48,11 @@ import org.eclipse.sirius.web.application.representation.services.Representation
 import org.eclipse.syson.easymod.diagram.form.methodology.utils.CreateRepresentationVariables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -68,8 +67,7 @@ public class MethodologyFormServices {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodologyFormServices.class);
 
-    @Autowired
-    private RepresentationApplicationService representationApplicationService;
+    private final RepresentationApplicationService representationApplicationService;
 
     private final IRepresentationDescriptionSearchService representationDescriptionSearchService;
 
@@ -78,7 +76,8 @@ public class MethodologyFormServices {
     private final IObjectService objectService;
 
     public MethodologyFormServices(IRepresentationDescriptionSearchService representationDescriptionSearchService,
-            IURLParser urlParser, IObjectService objectService) {
+            IURLParser urlParser, IObjectService objectService, RepresentationApplicationService representationApplicationService) {
+        this.representationApplicationService = Objects.requireNonNull(representationApplicationService);
         this.representationDescriptionSearchService = Objects.requireNonNull(representationDescriptionSearchService);
         this.urlParser = Objects.requireNonNull(urlParser);
         this.objectService = Objects.requireNonNull(objectService);

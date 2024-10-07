@@ -30,7 +30,7 @@
 		<module>backend/views/easymod-diagram-pbs-view</module>
 		<module>backend/views/easymod-diagram-fbstopbs</module>
 		<module>backend/views/easymod-methodology-form-view</module>
-		<module>distribution</module>
+		<module>backend/easymod-starter</module>
 	</modules>
 
 
