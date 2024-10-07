@@ -31,7 +31,6 @@ pom.xml.versionsBackup
 *.log
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear

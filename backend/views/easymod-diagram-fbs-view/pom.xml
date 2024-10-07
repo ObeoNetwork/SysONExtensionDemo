@@ -21,7 +21,7 @@
         <version>3.3.1</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.eclipse.easymod.web</groupId>
+    <groupId>org.eclipse.syson.easymod</groupId>
     <artifactId>easymod-diagram-fbs-view</artifactId>
     <version>2024.9.0</version>
     <name>easymod-diagram-fbs-view</name>
@@ -44,7 +44,7 @@
         </repository>
         <repository>
             <id>github-sirius-components</id>
-            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-web</url>
+            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-components</url>
         </repository>
 		<repository>
 			<id>github-sirius-emfjson</id>
@@ -66,9 +66,9 @@
     
     <dependencies>
     	<dependency>
-    		<groupId>org.eclipse.easymod.web</groupId>
-    		<artifactId>easymod-services</artifactId>
-    		<version>2024.9.0</version>
+		    <groupId>org.eclipse.syson.easymod</groupId>
+		    <artifactId>easymod-services</artifactId>
+		    <version>2024.9.0</version>
     	</dependency>
     </dependencies>
 
