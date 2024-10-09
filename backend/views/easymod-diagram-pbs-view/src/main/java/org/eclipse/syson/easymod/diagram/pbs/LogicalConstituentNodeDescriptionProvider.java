@@ -26,6 +26,7 @@ import org.eclipse.sirius.components.view.builder.generated.diagram.InsideLabelD
 import org.eclipse.sirius.components.view.builder.generated.diagram.InsideLabelStyleBuilder;
 import org.eclipse.sirius.components.view.builder.generated.diagram.NodeToolSectionBuilder;
 import org.eclipse.sirius.components.view.builder.providers.IColorProvider;
+import org.eclipse.sirius.components.view.diagram.ConditionalNodeStyle;
 import org.eclipse.sirius.components.view.diagram.DiagramDescription;
 import org.eclipse.sirius.components.view.diagram.DiagramFactory;
 import org.eclipse.sirius.components.view.diagram.DropNodeTool;
@@ -74,6 +75,7 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
                 .keepAspectRatio(false)
                 .palette(diagramBuilderHelper.newNodePalette().build())
                 .style(this.createNodeStyle(EasyModColorService.LOGICAL_CONSTITUENT_NODE_BACKGROUND_COLOR, EasyModColorService.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
+                .conditionalStyles(this.createOfInterestConditionalStyle())
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
                 .build();
     }
@@ -83,6 +85,21 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
                 .newRectangularNodeStyleDescription()
                 .background(colorProvider.getColor(color))
                 .borderColor(colorProvider.getColor(borderColor))
+                .build();
+    }
+
+    private ConditionalNodeStyle createOfInterestConditionalStyle() {
+        NodeStyleDescription nodeStyleDescription = this.diagramBuilderHelper
+                .newRectangularNodeStyleDescription()
+                .background(colorProvider.getColor(EasyModColorService.LOGICAL_CONSTITUENT_NODE_OF_INTEREST_BACKGROUND_COLOR))
+                .borderColor(colorProvider.getColor(EasyModColorService.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
+                .borderSize(3)
+                .build();
+
+        return this.diagramBuilderHelper
+                .newConditionalNodeStyle()
+                .condition(AQLUtils.getSelfServiceCallExpression("isLogicalConstituentOfInterest"))
+                .style(nodeStyleDescription)
                 .build();
     }
 
@@ -148,6 +165,7 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
                 .labelEditTool(editTool.build())
                 .edgeTools(edgeTools.toArray(EdgeTool[]::new))
                 .dropNodeTool(this.createDropFromDiagramTool(cache))
+                .nodeTools(createToogleOfInterestTool())
                 .toolSections(this.createToolSections(cache))
                 .build();
     }
@@ -198,6 +216,16 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
         nodeTool.setName(LogicalConstituentNodeDescriptionProvider.NODE_NAME);
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
         createElement.setExpression("aql:self.createLogicalConstituent(editingContext)");
+        nodeTool.getBody().add(createElement);
+        return nodeTool;
+    }
+
+    private NodeTool createToogleOfInterestTool() {
+        NodeTool nodeTool = DiagramFactory.eINSTANCE.createNodeTool();
+        nodeTool.setName("Toogle isOfInterest");
+        nodeTool.setIconURLsExpression("/images/favorite-icon.svg");
+        ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
+        createElement.setExpression("aql:self.toogleLogicalConsitituentIsOfInterest()");
         nodeTool.getBody().add(createElement);
         return nodeTool;
     }

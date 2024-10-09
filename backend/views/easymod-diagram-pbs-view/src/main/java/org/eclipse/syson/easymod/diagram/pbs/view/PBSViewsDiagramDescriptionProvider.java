@@ -117,7 +117,7 @@ public class PBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDe
 
         DiagramToolSectionBuilder sectionBuilder = this.diagramBuilderHelper.newDiagramToolSection()
                 .name(TOOL_SECTION_NAME)
-                .nodeTools(this.createFunctionTool());
+                .nodeTools(this.createLogicalConsituentTool());
         sections.add(sectionBuilder.build());
 
         // add extra section for existing elements
@@ -126,7 +126,7 @@ public class PBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDe
         return sections.toArray(DiagramToolSection[]::new);
     }
 
-    private NodeTool createFunctionTool() {
+    private NodeTool createLogicalConsituentTool() {
         NodeTool nodeTool = DiagramFactory.eINSTANCE.createNodeTool();
         nodeTool.setName(LogicalConstituentNodeDescriptionProvider.NODE_NAME);
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();

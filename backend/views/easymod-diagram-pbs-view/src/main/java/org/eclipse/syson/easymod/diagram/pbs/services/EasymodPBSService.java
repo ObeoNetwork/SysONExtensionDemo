@@ -15,6 +15,7 @@ package org.eclipse.syson.easymod.diagram.pbs.services;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -27,11 +28,14 @@ import org.eclipse.syson.easymod.diagram.utils.EasyModConstants;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.AllocationDefinition;
 import org.eclipse.syson.sysml.AllocationUsage;
+import org.eclipse.syson.sysml.AttributeUsage;
 import org.eclipse.syson.sysml.Element;
 import org.eclipse.syson.sysml.FeatureDirectionKind;
 import org.eclipse.syson.sysml.FeatureMembership;
+import org.eclipse.syson.sysml.FeatureValue;
 import org.eclipse.syson.sysml.InterfaceDefinition;
 import org.eclipse.syson.sysml.InterfaceUsage;
+import org.eclipse.syson.sysml.LiteralBoolean;
 import org.eclipse.syson.sysml.Namespace;
 import org.eclipse.syson.sysml.OwningMembership;
 import org.eclipse.syson.sysml.Package;
@@ -39,6 +43,7 @@ import org.eclipse.syson.sysml.PartDefinition;
 import org.eclipse.syson.sysml.PartUsage;
 import org.eclipse.syson.sysml.PortDefinition;
 import org.eclipse.syson.sysml.PortUsage;
+import org.eclipse.syson.sysml.Redefinition;
 import org.eclipse.syson.sysml.SysmlFactory;
 import org.eclipse.syson.sysml.Usage;
 
@@ -144,6 +149,8 @@ public class EasymodPBSService extends EasyModCommonServices {
         }
         newpartUsage.setDeclaredName("myLogicalConstituent");
         setType(optSeimLogicalConstituentDefinition.get(), newpartUsage);
+
+        createOfInterestAttribute(newpartUsage);
 
         return newpartUsage;
     }
@@ -262,11 +269,37 @@ public class EasymodPBSService extends EasyModCommonServices {
                 .orElse(null);
     }
 
+    private void createOfInterestAttribute(PartUsage parent) {
+        FeatureMembership newAttributeFeatureMembership = SysmlFactory.eINSTANCE.createFeatureMembership();
+        parent.getOwnedRelationship().add(newAttributeFeatureMembership);
+
+        AttributeUsage newIsOfInterest = SysmlFactory.eINSTANCE.createAttributeUsage();
+        newIsOfInterest.setDeclaredName(EasyModConstants.SEIM_LOGICAL_CONSTITUENT_OF_INTEREST_ATTRIBUTE_NAME);
+        newAttributeFeatureMembership.getOwnedRelatedElement().add(newIsOfInterest);
+
+        Optional<AttributeUsage> attributeToRedefine = getOptionalSiemSystemOfInterest(newIsOfInterest);
+        if (attributeToRedefine.isPresent()) {
+            Redefinition redefinition = SysmlFactory.eINSTANCE.createRedefinition();
+            redefinition.setRedefiningFeature(newIsOfInterest);
+            redefinition.setDeclaredName("redefines");
+            redefinition.setRedefinedFeature(attributeToRedefine.get());
+            newIsOfInterest.getOwnedRelationship().add(redefinition);
+        }
+
+        FeatureValue newLiteralBooleanFeatureValue = SysmlFactory.eINSTANCE.createFeatureValue();
+        newIsOfInterest.getOwnedRelationship().add(newLiteralBooleanFeatureValue);
+
+        LiteralBoolean newLiteralBoolean = SysmlFactory.eINSTANCE.createLiteralBoolean();
+        newLiteralBoolean.setValue(false);
+        newLiteralBooleanFeatureValue.getOwnedRelatedElement().add(newLiteralBoolean);
+    }
+
     /**
      * Verify that the {@link PartUsage} is allocated in a @link AllocationUsage} of the right type within the project.
      * 
      * @param SEIMLogicalConstituent
-     * @return
+     *            {@PartUsage} on which the test is done
+     * @return boolean
      */
     public boolean isSEIMLogicalConstituentAllocated(PartUsage seimLogicalConstituent) {
 
@@ -275,6 +308,53 @@ public class EasymodPBSService extends EasyModCommonServices {
                 .map(AllocationUsage.class::cast)
                 .filter(isTypedWith(EasyModConstants.SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME))
                 .anyMatch(allocatedLogicalConstituent -> allocatedLogicalConstituent.getTarget().contains(seimLogicalConstituent));
+    }
+
+    /**
+     * Determine if the {@link PartUsage} has it's isOfInterest flag on, if it exists.
+     * 
+     * @param SEIMLogicalConstituent
+     *            {@PartUsage} on which the test is done
+     * @return boolean
+     */
+    public boolean isLogicalConstituentOfInterest(PartUsage seimLogicalConstituent) {
+
+        return seimLogicalConstituent.getNestedAttribute().stream()
+                .filter(isSystemOfInterestPredicate())
+                .map(attribute -> attribute.getValuation())
+                .map(featureValue -> featureValue.getOwnedMemberElement())
+                .filter(literal -> literal instanceof LiteralBoolean)
+                .map(LiteralBoolean.class::cast)
+                .anyMatch(literalBoolean -> literalBoolean.isValue());
+    }
+
+    private Predicate<? super AttributeUsage> isSystemOfInterestPredicate() {
+        return attribute -> attribute.getOwnedRedefinition().stream()
+                .anyMatch(redefinition -> redefinition.getRedefinedFeature() != null && "isSystemOfInterest".equals(redefinition.getRedefinedFeature().getDeclaredName()));
+    }
+
+    /**
+     * Toogle the {@link PartUsage} isOfInterest flag, if it exists.
+     * 
+     * @param SEIMLogicalConstituent
+     *            {@PartUsage} on which the operation is done
+     * @return PartUsage the impacted PartUsage
+     */
+    public PartUsage toogleLogicalConsitituentIsOfInterest(PartUsage seimLogicalConstituent) {
+        Optional<LiteralBoolean> optLiteralBoolean = seimLogicalConstituent.getNestedAttribute().stream()
+                .filter(isSystemOfInterestPredicate())
+                .map(attribute -> attribute.getValuation())
+                .map(featureValue -> featureValue.getOwnedMemberElement())
+                .filter(literal -> literal instanceof LiteralBoolean)
+                .map(LiteralBoolean.class::cast)
+                .findFirst();
+
+        if (optLiteralBoolean.isPresent()) {
+            var literalBoolean = optLiteralBoolean.get();
+            var currentValue = literalBoolean.isValue();
+            literalBoolean.setValue(!currentValue);
+        }
+        return seimLogicalConstituent;
     }
 
     /**

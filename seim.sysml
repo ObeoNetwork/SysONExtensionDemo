@@ -15,7 +15,9 @@ library package SEIM {
         end target : ConstituentPort;
     }
 
-    part def LogicalConstituent;
+    part def LogicalConstituent {
+        attribute isSystemOfInterest : Boolean;
+    }
 
     port def FunctionPort;
     port def ConstituentPort;

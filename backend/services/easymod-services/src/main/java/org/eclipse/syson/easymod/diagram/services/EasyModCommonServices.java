@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.syson.easymod.diagram.utils.EasyModConstants;
 import org.eclipse.syson.services.ElementInitializerSwitch;
 import org.eclipse.syson.sysml.ActionDefinition;
+import org.eclipse.syson.sysml.AttributeUsage;
 import org.eclipse.syson.sysml.Definition;
 import org.eclipse.syson.sysml.Element;
 import org.eclipse.syson.sysml.Feature;
@@ -226,6 +227,14 @@ public class EasyModCommonServices {
                 .filter(notifier -> notifier instanceof InterfaceDefinition)
                 .map(InterfaceDefinition.class::cast)
                 .filter(portDef -> EasyModConstants.FUNCTION_FLOW_QUALIFIED_NAME.equals(portDef.getQualifiedName()))
+                .findFirst();
+    }
+
+    protected Optional<AttributeUsage> getOptionalSiemSystemOfInterest(EObject sourceElement) {
+        return extractGlobalNotifier(sourceElement).stream()
+                .filter(notifier -> notifier instanceof AttributeUsage)
+                .map(AttributeUsage.class::cast)
+                .filter(functionDef -> EasyModConstants.SEIM_ATTRIBUTE_OF_INTEREST_QUALIFIED_NAME.equals(functionDef.getQualifiedName()))
                 .findFirst();
     }
 }
