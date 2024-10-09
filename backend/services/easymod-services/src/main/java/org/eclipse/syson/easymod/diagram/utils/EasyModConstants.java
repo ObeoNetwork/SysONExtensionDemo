@@ -33,4 +33,8 @@ public class EasyModConstants {
 
     public static final String SEIM_ALLOCATED_FUNCTION_QUALIFIED_NAME = "SEIM::AllocatedFunction";
 
+    public static final String SEIM_LOGICAL_CONSTITUENT_OF_INTEREST_ATTRIBUTE_NAME = "isLogicalConstituentOfInterest";
+
+    public static final String SEIM_ATTRIBUTE_OF_INTEREST_QUALIFIED_NAME = "SEIM::LogicalConstituent::isSystemOfInterest";
+
 }
