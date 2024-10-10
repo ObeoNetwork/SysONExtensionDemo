@@ -112,30 +112,33 @@ public class EasyModCommonServices {
     }
 
     /**
-     * Return true if {@link Feature} has as a direction and this direction is IN.
+     * Check if {@link Feature} has as a direction and this direction is IN.
      * 
      * @param feature
-     * @return
+     *            the port with the direction to check
+     * @return {@code true} if the feature has as a direction and this direction is IN, {@code false} otherwise.
      */
     public boolean isInFeature(Feature feature) {
         return FeatureDirectionKind.IN.equals(feature.getDirection());
     }
 
     /**
-     * Return true if {@link Feature} has as a direction and this direction is OUT.
+     * Check if {@link Feature} has as a direction and this direction is OUT.
      * 
      * @param feature
-     * @return
+     *            the port with the direction to check
+     * @return {@code true} if the feature has as a direction and this direction is OUT, {@code false} otherwise.
      */
     public boolean isOutFeature(Feature feature) {
         return FeatureDirectionKind.OUT.equals(feature.getDirection());
     }
 
     /**
-     * Return true if {@link Feature} has as a direction and this direction is INOUT.
+     * Check if {@link Feature} has as a direction and this direction is INOUT.
      * 
      * @param feature
-     * @return
+     *            the port with the direction to check
+     * @return {@code true} if the feature has as a direction and this direction is INOUT, {@code false} otherwise.
      */
     public boolean isInOutFeature(Feature feature) {
         return FeatureDirectionKind.INOUT.equals(feature.getDirection());
