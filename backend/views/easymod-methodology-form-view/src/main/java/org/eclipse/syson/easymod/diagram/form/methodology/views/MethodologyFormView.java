@@ -42,6 +42,12 @@ public class MethodologyFormView {
             + "Curabitur vitae ipsum feugiat, pellentesque elit id, auctor mauris. Sed lacinia quam at turpis euismod, vitae aliquet diam pulvinar. "
             + "In arcu lorem, sagittis ut ligula vel, molestie gravida odio.";
 
+    private static final String FUNCTION_PAGE_LABEL = "Functional flow";
+
+    private static final String PRODUCT_PAGE_LABEL = "Logical flow";
+
+    private static final String ALLOCATION_PAGE_LABEL = "Allocation cockpit";
+
     private static final String FUNCTION_DESCRIPTION = "Define the functions and subfunctions of your system.";
 
     private static final String PRODUCT_DESCRIPTION = "Define the product and its components.";
@@ -72,11 +78,11 @@ public class MethodologyFormView {
 
     private static final String ALLOCATION_DIAGRAM_ID = "5fb6a51c-bacd-395b-a021-ecf81e8ffa41";
 
-    private static final String FUNCTION_DIAGRAM_ELEMENT_ID = "7da9f558-0a5f-3c4c-b1c2-db38114b767f";
+    private static final String FUNCTION_DIAGRAM_ELEMENT_ID = "42c7d51d-ddc0-3f80-ba8f-d41bd05bb069";
 
-    private static final String PRODUCT_DIAGRAM_ELEMENT_ID = "eab2d525-254e-3414-8116-49a8f4d64aad";
+    private static final String PRODUCT_DIAGRAM_ELEMENT_ID = "ae994350-3a1e-392b-94f7-cf2377699ca5";
 
-    private static final String ALLOCATION_DIAGRAM_ELEMENT_ID = "290a3846-1c81-3c6a-8eb0-a7def302fa11";
+    private static final String ALLOCATION_DIAGRAM_ELEMENT_ID = "c56356be-fdca-3129-a999-9bf6cfd3c0b8";
 
     public FormDescription createFormDescription() {
         String domainType = SysMLMetamodelHelper.buildQualifiedName(SysmlPackage.eINSTANCE.getNamespace());
@@ -96,22 +102,22 @@ public class MethodologyFormView {
     }
 
     private void createFunctionPage(FormDescription formDescription) {
-        PageDescription functionBreakdownStructurePageDescription = createPage("FunctionBreakdownStructure", "Function", MethodologyFormView.FUNCTION_DESCRIPTION,
-                MethodologyFormView.FUNCTION_LONG_DESCRIPTION, FUNCTION_IMAGE_PATH, "create FBS",
+        PageDescription functionBreakdownStructurePageDescription = createPage("FunctionBreakdownStructure", MethodologyFormView.FUNCTION_PAGE_LABEL,
+                MethodologyFormView.FUNCTION_DESCRIPTION, MethodologyFormView.FUNCTION_LONG_DESCRIPTION, FUNCTION_IMAGE_PATH, "create FFD",
                 MethodologyFormView.FUNCTION_DIAGRAM_NAME, MethodologyFormView.FUNCTION_DIAGRAM_ID, MethodologyFormView.FUNCTION_DIAGRAM_ELEMENT_ID);
         formDescription.getPages().add(functionBreakdownStructurePageDescription);
     }
 
     private void createProductPage(FormDescription formDescription) {
-        PageDescription productBreakdownStructurePageDescription = createPage("ProductBreakdownStructure", "Product", MethodologyFormView.PRODUCT_DESCRIPTION,
-                MethodologyFormView.PRODUCT_LONG_DESCRIPTION, PRODUCT_IMAGE_PATH, "create PBS",
+        PageDescription productBreakdownStructurePageDescription = createPage("ProductBreakdownStructure", MethodologyFormView.PRODUCT_PAGE_LABEL,
+                MethodologyFormView.PRODUCT_DESCRIPTION, MethodologyFormView.PRODUCT_LONG_DESCRIPTION, PRODUCT_IMAGE_PATH, "create LFD",
                 MethodologyFormView.PRODUCT_DIAGRAM_NAME, MethodologyFormView.PRODUCT_DIAGRAM_ID, MethodologyFormView.PRODUCT_DIAGRAM_ELEMENT_ID);
         formDescription.getPages().add(productBreakdownStructurePageDescription);
     }
 
     private void createAllocationPage(FormDescription formDescription) {
-        PageDescription fbsToPbsAllocationPageDescription = createPage("FbsToPbsAllocation", "Allocation", MethodologyFormView.ALLOCATION_DESCRIPTION,
-                MethodologyFormView.ALLOCATION_LONG_DESCRIPTION, ALLOCATION_IMAGE_PATH, "create FBS to PBS",
+        PageDescription fbsToPbsAllocationPageDescription = createPage("FbsToPbsAllocation", MethodologyFormView.ALLOCATION_PAGE_LABEL,
+                MethodologyFormView.ALLOCATION_DESCRIPTION, MethodologyFormView.ALLOCATION_LONG_DESCRIPTION, ALLOCATION_IMAGE_PATH, "create AC",
                 MethodologyFormView.ALLOCATION_DIAGRAM_NAME, MethodologyFormView.ALLOCATION_DIAGRAM_ID, MethodologyFormView.ALLOCATION_DIAGRAM_ELEMENT_ID);
         formDescription.getPages().add(fbsToPbsAllocationPageDescription);
     }

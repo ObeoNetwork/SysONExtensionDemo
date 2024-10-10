@@ -33,7 +33,7 @@ public class PBSViewJavaServiceProvider implements IJavaServiceProvider {
     public List<Class<?>> getServiceClasses(View view) {
         var descriptions = view.getDescriptions();
         var optDescription = descriptions.stream()
-                .filter(desc -> PBSViewsDiagramDescriptionProvider.DESCRIPTION_NAME.equals(desc.getName()))
+                .filter(desc -> PBSViewsDiagramDescriptionProvider.DIAGRAM_NAME.equals(desc.getName()))
                 .findFirst();
         if (optDescription.isPresent()) {
             return List.of(DeleteService.class,

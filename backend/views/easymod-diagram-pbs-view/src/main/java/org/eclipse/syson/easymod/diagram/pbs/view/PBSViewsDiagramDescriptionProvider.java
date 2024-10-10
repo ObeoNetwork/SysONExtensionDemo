@@ -50,11 +50,9 @@ import org.eclipse.syson.util.AQLUtils;
  */
 public class PBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDescriptionProvider implements IRepresentationDescriptionProvider {
 
-    public static final String DESCRIPTION_NAME = "PBS View";
+    public static final String DIAGRAM_NAME = "Logical flow diagram";
 
-    public static final String DIAGRAM_NAME = DESCRIPTION_NAME;
-
-    public static final String DIAGRAM_LABEL = DESCRIPTION_NAME;
+    public static final String DIAGRAM_LABEL = "Logical flow diagram";
 
     private static final String TOOL_SECTION_NAME = "MainTools";
 

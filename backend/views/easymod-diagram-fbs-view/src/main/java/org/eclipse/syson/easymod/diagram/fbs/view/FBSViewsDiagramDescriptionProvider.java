@@ -48,9 +48,9 @@ import org.eclipse.syson.util.AQLUtils;
  */
 public class FBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDescriptionProvider implements IRepresentationDescriptionProvider {
 
-    public static final String DIAGRAM_NAME = "FBSView";
+    public static final String DIAGRAM_NAME = "Functional flow diagram";
 
-    public static final String DIAGRAM_LABEL = "Function Breakdown Structure View";
+    public static final String DIAGRAM_LABEL = "Functional flow diagram";
 
     private static final String TOOL_SECTION_NAME = "MainTools";
 
