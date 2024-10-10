@@ -28,7 +28,7 @@ import org.eclipse.sirius.components.view.diagram.EdgeStyle;
 import org.eclipse.sirius.components.view.diagram.LineStyle;
 import org.eclipse.sirius.components.view.diagram.SynchronizationPolicy;
 import org.eclipse.sirius.components.view.diagram.provider.DefaultToolsFactory;
-import org.eclipse.syson.easymod.diagram.utils.EasyModColorService;
+import org.eclipse.syson.easymod.diagram.utils.EasyModColorConstants;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.AQLConstants;
 import org.eclipse.syson.util.AQLUtils;
@@ -115,7 +115,7 @@ public class FunctionalFlowEdgeDescriptionProvider implements IEdgeDescriptionPr
                 .edgeWidth(1)
                 .borderSize(0)
                 .lineStyle(LineStyle.SOLID)
-                .color(colorProvider.getColor(EasyModColorService.FUNCTION_EDGE_COLOR))
+                .color(colorProvider.getColor(EasyModColorConstants.FUNCTION_EDGE_COLOR))
                 .sourceArrowStyle(ArrowStyle.NONE)
                 .targetArrowStyle(ArrowStyle.NONE)
                 .build();

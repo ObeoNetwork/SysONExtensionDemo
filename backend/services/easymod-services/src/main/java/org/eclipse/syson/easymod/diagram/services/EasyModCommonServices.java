@@ -55,10 +55,11 @@ public class EasyModCommonServices {
     protected final ElementInitializerSwitch elementInitializerSwitch = new ElementInitializerSwitch();
 
     /**
-     * Delete the given {@link Element} and its container if it's a {@link Membership}. Also delete related port.
+     * Delete the given {@link InterfaceUsage} and its container if it's a {@link Membership}. Also delete related
+     * ports.
      *
-     * @param element
-     *            the {@link Element} to delete.
+     * @param interfaceUsage
+     *            the {@link InterfaceUsage} to delete.
      * @return the deleted element.
      */
     public EObject deleteFlow(InterfaceUsage interfaceUsage) {
@@ -110,14 +111,32 @@ public class EasyModCommonServices {
         return element.getDeclaredName();
     }
 
+    /**
+     * Return true if {@link Feature} has as a direction and this direction is IN.
+     * 
+     * @param feature
+     * @return
+     */
     public boolean isInFeature(Feature feature) {
         return FeatureDirectionKind.IN.equals(feature.getDirection());
     }
 
+    /**
+     * Return true if {@link Feature} has as a direction and this direction is OUT.
+     * 
+     * @param feature
+     * @return
+     */
     public boolean isOutFeature(Feature feature) {
         return FeatureDirectionKind.OUT.equals(feature.getDirection());
     }
 
+    /**
+     * Return true if {@link Feature} has as a direction and this direction is INOUT.
+     * 
+     * @param feature
+     * @return
+     */
     public boolean isInOutFeature(Feature feature) {
         return FeatureDirectionKind.INOUT.equals(feature.getDirection());
     }
@@ -182,7 +201,7 @@ public class EasyModCommonServices {
     }
 
     // Element Definition object helpers
-    protected Optional<PartDefinition> getOptionalSiemLogicalConstituentDefinition(EObject sourceElement) {
+    protected Optional<PartDefinition> getOptionalSeimLogicalConstituentDefinition(EObject sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof PartDefinition)
                 .map(PartDefinition.class::cast)
@@ -206,7 +225,7 @@ public class EasyModCommonServices {
                 .findFirst();
     }
 
-    protected Optional<ActionDefinition> getOptionalSiemFunctionDefinition(EObject sourceElement) {
+    protected Optional<ActionDefinition> getOptionalSeimFunctionDefinition(EObject sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof ActionDefinition)
                 .map(ActionDefinition.class::cast)
@@ -214,7 +233,7 @@ public class EasyModCommonServices {
                 .findFirst();
     }
 
-    protected Optional<PortDefinition> getOptionalSiemFunctionPortDefinition(Element sourceElement) {
+    protected Optional<PortDefinition> getOptionalSeimFunctionPortDefinition(Element sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof PortDefinition)
                 .map(PortDefinition.class::cast)
@@ -222,7 +241,7 @@ public class EasyModCommonServices {
                 .findFirst();
     }
 
-    protected Optional<InterfaceDefinition> getOptionalSiemFunctionalFlowDefinition(Element sourceElement) {
+    protected Optional<InterfaceDefinition> getOptionalSeimFunctionalFlowDefinition(Element sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof InterfaceDefinition)
                 .map(InterfaceDefinition.class::cast)
@@ -230,7 +249,7 @@ public class EasyModCommonServices {
                 .findFirst();
     }
 
-    protected Optional<AttributeUsage> getOptionalSiemSystemOfInterest(EObject sourceElement) {
+    protected Optional<AttributeUsage> getOptionalSeimSystemOfInterest(EObject sourceElement) {
         return extractGlobalNotifier(sourceElement).stream()
                 .filter(notifier -> notifier instanceof AttributeUsage)
                 .map(AttributeUsage.class::cast)

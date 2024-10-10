@@ -43,6 +43,17 @@ import org.eclipse.syson.sysml.Usage;
 public class EasymodFBSService extends EasyModCommonServices {
 
     /**
+     * Returns {@code true} if the diagram can be created on the provided {@code element}.
+     *
+     * @param element
+     *            the element to check
+     * @return {@code true} if the diagram can be created on the provided {@code element}
+     */
+    public boolean canCreateDiagram(Element element) {
+        return element instanceof Package || element instanceof ActionUsage;
+    }
+
+    /**
      * Get list of {@link ActionUsage} typed by SEIM::Function contained by a given eObject.
      * 
      * @param eObject
@@ -88,7 +99,7 @@ public class EasymodFBSService extends EasyModCommonServices {
      * @return the new {@link ActionUsage} typed by SEIM::Function.
      */
     public ActionUsage createFunction(EObject parent, IEditingContext editingContext) {
-        Optional<ActionDefinition> optSeimFunctionDefinition = getOptionalSiemFunctionDefinition(parent);
+        Optional<ActionDefinition> optSeimFunctionDefinition = getOptionalSeimFunctionDefinition(parent);
         if (parent == null || optSeimFunctionDefinition.isEmpty()) {
             return null;
         }
@@ -150,8 +161,8 @@ public class EasymodFBSService extends EasyModCommonServices {
      */
     public InterfaceUsage createFunctionalFlow(ActionUsage source, ActionUsage target) {
         Namespace namespace = this.getClosestContainingDefinitionOrPackageFrom(source);
-        Optional<PortDefinition> optSeimFunctionalPortDefinition = getOptionalSiemFunctionPortDefinition(source);
-        Optional<InterfaceDefinition> optSeimFunctionFlowDefinition = getOptionalSiemFunctionalFlowDefinition(source);
+        Optional<PortDefinition> optSeimFunctionalPortDefinition = getOptionalSeimFunctionPortDefinition(source);
+        Optional<InterfaceDefinition> optSeimFunctionFlowDefinition = getOptionalSeimFunctionalFlowDefinition(source);
         if (namespace == null || optSeimFunctionalPortDefinition.isEmpty() || optSeimFunctionFlowDefinition.isEmpty()) {
             return null;
         }
@@ -166,12 +177,12 @@ public class EasymodFBSService extends EasyModCommonServices {
     }
 
     /**
-     * Verify that the SIEM function {@link ActionUsage} is allocated in a @link AllocationUsage} of the right type
+     * Verify that the SEIM function {@link ActionUsage} is allocated in a @link AllocationUsage} of the right type
      * within the project.
      * 
      * @param seimFunction
      *            the seim Function to check allocation
-     * @return {@code true} if the siem function is allocated, {@code false} otherwise
+     * @return {@code true} if the seim function is allocated, {@code false} otherwise
      */
     public boolean isSEIMFunctionAllocated(ActionUsage seimFunction) {
         return extractNotifier(seimFunction).stream()

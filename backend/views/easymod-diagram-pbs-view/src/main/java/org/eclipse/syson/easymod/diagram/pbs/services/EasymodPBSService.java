@@ -67,6 +67,17 @@ public class EasymodPBSService extends EasyModCommonServices {
     }
 
     /**
+     * Returns {@code true} if the diagram can be created on the provided {@code element}.
+     *
+     * @param element
+     *            the element to check
+     * @return {@code true} if the diagram can be created on the provided {@code element}
+     */
+    public boolean canCreateDiagram(Element element) {
+        return element instanceof Package || element instanceof PartUsage;
+    }
+
+    /**
      * Get list of {@link PartUsage} typed by SEIM::LogicalConstituent contained by a given eObject.
      * 
      * @param eObject
@@ -106,10 +117,14 @@ public class EasymodPBSService extends EasyModCommonServices {
      * Retrieve the list of {@link ActionUsage} typed by SEIM::Function that are allocated to the logiclaConstituent.
      * 
      * @param logicalConstituent
-     *            the {@link PartUsage} typed by SEIM::LogicalConstituent to check allocations
+     *            the {@link Element} expected to be a {@link PartUsage} typed by SEIM::LogicalConstituent to check
+     *            allocations
      * @return the list of {@link ActionUsage} typed by SEIM::Function that are allocated to the logiclaConstituent.
      */
-    public List<ActionUsage> getFunctionsAllocatedOnLogicalConstituent(PartUsage logicalConstituent) {
+    public List<ActionUsage> getFunctionsAllocatedOnLogicalConstituent(Element logicalConstituent) {
+        if (!(logicalConstituent instanceof PartUsage)) {
+            return List.of();
+        }
         return extractNotifier(logicalConstituent).stream()
                 .filter(e -> e instanceof AllocationUsage)
                 .map(AllocationUsage.class::cast)
@@ -132,7 +147,7 @@ public class EasymodPBSService extends EasyModCommonServices {
      * @return the new {@link PartUsage} typed by SEIM::LogicalConstituent.
      */
     public PartUsage createLogicalConstituent(EObject parent, IEditingContext editingContext) {
-        Optional<PartDefinition> optSeimLogicalConstituentDefinition = getOptionalSiemLogicalConstituentDefinition(parent);
+        Optional<PartDefinition> optSeimLogicalConstituentDefinition = getOptionalSeimLogicalConstituentDefinition(parent);
         if (parent == null || optSeimLogicalConstituentDefinition.isEmpty()) {
             return null;
         }
@@ -277,7 +292,7 @@ public class EasymodPBSService extends EasyModCommonServices {
         newIsOfInterest.setDeclaredName(EasyModConstants.SEIM_LOGICAL_CONSTITUENT_OF_INTEREST_ATTRIBUTE_NAME);
         newAttributeFeatureMembership.getOwnedRelatedElement().add(newIsOfInterest);
 
-        Optional<AttributeUsage> attributeToRedefine = getOptionalSiemSystemOfInterest(newIsOfInterest);
+        Optional<AttributeUsage> attributeToRedefine = getOptionalSeimSystemOfInterest(newIsOfInterest);
         if (attributeToRedefine.isPresent()) {
             Redefinition redefinition = SysmlFactory.eINSTANCE.createRedefinition();
             redefinition.setRedefiningFeature(newIsOfInterest);

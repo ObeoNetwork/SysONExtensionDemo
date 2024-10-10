@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.eclipse.syson.easymod.diagram.form.methodology.views;
 
+import java.util.List;
+
 import org.eclipse.sirius.components.view.ViewFactory;
 import org.eclipse.sirius.components.view.form.FlexDirection;
 import org.eclipse.sirius.components.view.form.FormDescription;
@@ -22,6 +24,7 @@ import org.eclipse.sirius.components.view.form.ListDescription;
 import org.eclipse.sirius.components.view.form.PageDescription;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.AQLConstants;
+import org.eclipse.syson.util.AQLUtils;
 import org.eclipse.syson.util.SysMLMetamodelHelper;
 
 /**
@@ -185,8 +188,13 @@ public class MethodologyFormView {
         button.setLabelExpression("");
         button.setButtonLabelExpression(buttonLabel);
         var createOperation = ViewFactory.eINSTANCE.createChangeContext();
-        createOperation.setExpression("aql:self.createRepresentation('siriusComponents://representationDescription?kind=diagramDescription&sourceKind=view&sourceId=" + diagramID + "&sourceElementId="
-                + diagramDescriptionID + "', editingContext)");
+        String createRepresentationRequestURL = "'siriusComponents://representationDescription"
+                + "?kind=diagramDescription"
+                + "&sourceKind=view"
+                + "&sourceId=" + diagramID
+                + "&sourceElementId=" + diagramDescriptionID
+                + "'";
+        createOperation.setExpression(AQLUtils.getSelfServiceCallExpression("createRepresentation", List.of(createRepresentationRequestURL, "editingContext")));
         button.getBody().add(createOperation);
         flexboxContainer.getChildren().add(button);
 
@@ -194,8 +202,8 @@ public class MethodologyFormView {
         ListDescription representationsViewer = FormFactory.eINSTANCE.createListDescription();
         representationsViewer.setName(name + "List");
         representationsViewer.setLabelExpression("Representations Viewer");
-        representationsViewer.setValueExpression("aql:self.getAllRepresentations(Sequence{'" + diagramDescriptionID + "'}, editingContext)");
-        representationsViewer.setDisplayExpression("aql:candidate.getLabel()");
+        representationsViewer.setValueExpression(AQLUtils.getSelfServiceCallExpression("getAllRepresentations", "Sequence{'" + diagramDescriptionID + "'}, editingContext)"));
+        representationsViewer.setDisplayExpression(AQLUtils.getServiceCallExpression("candidate", "getLabel"));
         representationsViewer.setIsDeletableExpression("aql:false");
         flexboxContainer.getChildren().add(representationsViewer);
 
