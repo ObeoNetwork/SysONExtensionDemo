@@ -27,7 +27,9 @@ import org.eclipse.syson.util.SysMLMetamodelHelper;
  */
 public class FBSToPBSViewsDiagramDescriptionProvider implements IRepresentationDescriptionProvider {
 
-    public static final String DESCRIPTION_NAME = "FBS To PBS View";
+    public static final String FORM_NAME = "Allocated Function on LogicalConstituent view";
+
+    public static final String DESCRIPTION_NAME = "Allocated Function on LogicalConstituent view";
 
     private final DiagramBuilders diagramBuilderHelper = new DiagramBuilders();
 
@@ -41,7 +43,7 @@ public class FBSToPBSViewsDiagramDescriptionProvider implements IRepresentationD
                 .autoLayout(false)
                 .domainType(domainType)
                 .preconditionExpression("aql:true")
-                .name(DESCRIPTION_NAME)
+                .name(FORM_NAME)
                 .titleExpression(DESCRIPTION_NAME);
 
         var diagramDescription = diagramDescriptionBuilder.build();
