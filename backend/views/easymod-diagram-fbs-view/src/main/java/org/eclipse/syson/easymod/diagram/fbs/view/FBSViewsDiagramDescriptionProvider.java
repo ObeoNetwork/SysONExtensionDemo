@@ -124,7 +124,7 @@ public class FBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDe
         NodeTool nodeTool = DiagramFactory.eINSTANCE.createNodeTool();
         nodeTool.setName(FunctionNodeDescriptionProvider.NODE_NAME);
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
-        createElement.setExpression("aql:self.createFunction(editingContext)");
+        createElement.setExpression(AQLUtils.getSelfServiceCallExpression("createFunction", List.of("editingContext")));
         nodeTool.getBody().add(createElement);
         return nodeTool;
     }

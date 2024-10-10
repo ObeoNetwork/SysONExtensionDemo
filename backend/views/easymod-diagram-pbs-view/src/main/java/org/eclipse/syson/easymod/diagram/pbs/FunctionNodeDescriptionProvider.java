@@ -28,7 +28,7 @@ import org.eclipse.sirius.components.view.diagram.NodeStyleDescription;
 import org.eclipse.sirius.components.view.diagram.SynchronizationPolicy;
 import org.eclipse.sirius.components.view.diagram.UserResizableDirection;
 import org.eclipse.syson.diagram.common.view.nodes.AbstractNodeDescriptionProvider;
-import org.eclipse.syson.easymod.diagram.utils.EasyModColorService;
+import org.eclipse.syson.easymod.diagram.utils.EasyModColorConstants;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.AQLConstants;
 import org.eclipse.syson.util.AQLUtils;
@@ -59,7 +59,7 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 .defaultWidthExpression("150")
                 .userResizable(UserResizableDirection.BOTH)
                 .keepAspectRatio(false)
-                .style(this.createNodeStyle(EasyModColorService.FUNCTION_NODE_ALLOCATED_BACKGROUND_COLOR, EasyModColorService.FUNCTION_NODE_BORDER_COLOR))
+                .style(this.createNodeStyle(EasyModColorConstants.FUNCTION_NODE_ALLOCATED_BACKGROUND_COLOR, EasyModColorConstants.FUNCTION_NODE_BORDER_COLOR))
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
                 .build();
     }

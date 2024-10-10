@@ -42,7 +42,7 @@ import org.eclipse.sirius.components.view.diagram.NodeToolSection;
 import org.eclipse.sirius.components.view.diagram.SynchronizationPolicy;
 import org.eclipse.sirius.components.view.diagram.UserResizableDirection;
 import org.eclipse.syson.diagram.common.view.nodes.AbstractNodeDescriptionProvider;
-import org.eclipse.syson.easymod.diagram.utils.EasyModColorService;
+import org.eclipse.syson.easymod.diagram.utils.EasyModColorConstants;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.AQLConstants;
 import org.eclipse.syson.util.AQLUtils;
@@ -74,7 +74,7 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
                 .userResizable(UserResizableDirection.BOTH)
                 .keepAspectRatio(false)
                 .palette(diagramBuilderHelper.newNodePalette().build())
-                .style(this.createNodeStyle(EasyModColorService.LOGICAL_CONSTITUENT_NODE_BACKGROUND_COLOR, EasyModColorService.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
+                .style(this.createNodeStyle(EasyModColorConstants.LOGICAL_CONSTITUENT_NODE_BACKGROUND_COLOR, EasyModColorConstants.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
                 .conditionalStyles(this.createOfInterestConditionalStyle())
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
                 .build();
@@ -91,8 +91,8 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
     private ConditionalNodeStyle createOfInterestConditionalStyle() {
         NodeStyleDescription nodeStyleDescription = this.diagramBuilderHelper
                 .newRectangularNodeStyleDescription()
-                .background(colorProvider.getColor(EasyModColorService.LOGICAL_CONSTITUENT_NODE_OF_INTEREST_BACKGROUND_COLOR))
-                .borderColor(colorProvider.getColor(EasyModColorService.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
+                .background(colorProvider.getColor(EasyModColorConstants.LOGICAL_CONSTITUENT_NODE_OF_INTEREST_BACKGROUND_COLOR))
+                .borderColor(colorProvider.getColor(EasyModColorConstants.LOGICAL_CONSTITUENT_NODE_BORDER_COLOR))
                 .borderSize(3)
                 .build();
 
@@ -215,7 +215,7 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
         NodeTool nodeTool = DiagramFactory.eINSTANCE.createNodeTool();
         nodeTool.setName(LogicalConstituentNodeDescriptionProvider.NODE_NAME);
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
-        createElement.setExpression("aql:self.createLogicalConstituent(editingContext)");
+        createElement.setExpression(AQLUtils.getSelfServiceCallExpression("createLogicalConstituent", List.of("editingContext")));
         nodeTool.getBody().add(createElement);
         return nodeTool;
     }
@@ -225,7 +225,7 @@ public class LogicalConstituentNodeDescriptionProvider extends AbstractNodeDescr
         nodeTool.setName("Toogle isOfInterest");
         nodeTool.setIconURLsExpression("/images/favorite-icon.svg");
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
-        createElement.setExpression("aql:self.toogleLogicalConsitituentIsOfInterest()");
+        createElement.setExpression(AQLUtils.getSelfServiceCallExpression("toogleLogicalConsitituentIsOfInterest"));
         nodeTool.getBody().add(createElement);
         return nodeTool;
     }

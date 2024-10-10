@@ -42,7 +42,7 @@ import org.eclipse.sirius.components.view.diagram.NodeToolSection;
 import org.eclipse.sirius.components.view.diagram.SynchronizationPolicy;
 import org.eclipse.sirius.components.view.diagram.UserResizableDirection;
 import org.eclipse.syson.diagram.common.view.nodes.AbstractNodeDescriptionProvider;
-import org.eclipse.syson.easymod.diagram.utils.EasyModColorService;
+import org.eclipse.syson.easymod.diagram.utils.EasyModColorConstants;
 import org.eclipse.syson.sysml.SysmlPackage;
 import org.eclipse.syson.util.AQLConstants;
 import org.eclipse.syson.util.AQLUtils;
@@ -73,7 +73,7 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 .defaultWidthExpression("150")
                 .userResizable(UserResizableDirection.BOTH)
                 .keepAspectRatio(false)
-                .style(this.createNodeStyle(EasyModColorService.FUNCTION_NODE_UNALLOCATED_BACKGROUND_COLOR, EasyModColorService.FUNCTION_NODE_BORDER_COLOR))
+                .style(this.createNodeStyle(EasyModColorConstants.FUNCTION_NODE_UNALLOCATED_BACKGROUND_COLOR, EasyModColorConstants.FUNCTION_NODE_BORDER_COLOR))
                 .conditionalStyles(createConditionalNodeStyle())
                 .synchronizationPolicy(SynchronizationPolicy.SYNCHRONIZED)
                 .build();
@@ -82,8 +82,8 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
     private ConditionalNodeStyle[] createConditionalNodeStyle() {
         var styles = new ArrayList<ConditionalNodeStyle>();
         styles.add(this.generateConditionalNodeSytle(
-                EasyModColorService.FUNCTION_NODE_ALLOCATED_BACKGROUND_COLOR,
-                EasyModColorService.FUNCTION_NODE_BORDER_COLOR,
+                EasyModColorConstants.FUNCTION_NODE_ALLOCATED_BACKGROUND_COLOR,
+                EasyModColorConstants.FUNCTION_NODE_BORDER_COLOR,
                 AQLUtils.getSelfServiceCallExpression("isSEIMFunctionAllocated")));
         return styles.toArray(new ConditionalNodeStyle[0]);
     }
@@ -182,8 +182,9 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
     }
 
     private DropNodeTool createDropFromDiagramTool(IViewDiagramElementFinder cache) {
-        var dropElementFromDiagram = this.viewBuilderHelper.newChangeContext()
-                .expression("aql:droppedElement.dropElementFromDiagram(droppedNode, targetElement, targetNode, editingContext, diagramContext, convertedNodes)");
+        String dropFromDiagramChangeContextExpression = AQLUtils.getServiceCallExpression("droppedElement", "dropElementFromDiagram",
+                List.of("droppedNode", "targetElement", "targetNode", "editingContext", "diagramContext", "convertedNodes"));
+        var dropElementFromDiagram = this.viewBuilderHelper.newChangeContext().expression(dropFromDiagramChangeContextExpression);
 
         return this.diagramBuilderHelper.newDropNodeTool()
                 .name("Drop from Diagram")
@@ -215,7 +216,8 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
         NodeTool nodeTool = DiagramFactory.eINSTANCE.createNodeTool();
         nodeTool.setName(FunctionNodeDescriptionProvider.NODE_NAME);
         ChangeContext createElement = ViewFactory.eINSTANCE.createChangeContext();
-        createElement.setExpression("aql:self.createFunction(editingContext)");
+        createElement.setExpression(AQLUtils.getSelfServiceCallExpression("createFunction", List.of("editingContext")));
+
         nodeTool.getBody().add(createElement);
         return nodeTool;
     }

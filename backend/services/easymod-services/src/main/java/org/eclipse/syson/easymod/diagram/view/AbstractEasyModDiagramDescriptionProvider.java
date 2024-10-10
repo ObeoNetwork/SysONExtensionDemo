@@ -28,6 +28,7 @@ import org.eclipse.sirius.components.view.diagram.DiagramPalette;
 import org.eclipse.sirius.components.view.diagram.DiagramToolSection;
 import org.eclipse.sirius.components.view.diagram.DropTool;
 import org.eclipse.syson.sysml.SysmlPackage;
+import org.eclipse.syson.util.AQLUtils;
 import org.eclipse.syson.util.SysMLMetamodelHelper;
 
 /**
@@ -46,7 +47,7 @@ public abstract class AbstractEasyModDiagramDescriptionProvider implements IRepr
                 .arrangeLayoutDirection(ArrangeLayoutDirection.DOWN)
                 .autoLayout(false)
                 .domainType(getDomainType())
-                .preconditionExpression(getDiagramPreconditionExpression())
+                .preconditionExpression(AQLUtils.getSelfServiceCallExpression("canCreateDiagram"))
                 .name(getName())
                 .titleExpression(getLabel());
         return diagramDescriptionBuilder;
@@ -63,13 +64,9 @@ public abstract class AbstractEasyModDiagramDescriptionProvider implements IRepr
         var dropTool = DiagramFactory.eINSTANCE.createDropTool();
         var changeContext = ViewFactory.eINSTANCE.createChangeContext();
         dropTool.setName("Drop Tool");
-        changeContext.setExpression("aql:self.drop(selectedNode, diagramContext, convertedNodes)");
+        changeContext.setExpression(AQLUtils.getSelfServiceCallExpression("drop", List.of("selectedNode", "diagramContext", "convertedNodes")));
         dropTool.getBody().add(changeContext);
         return dropTool;
-    }
-
-    protected String getDiagramPreconditionExpression() {
-        return "aql:true";
     }
 
     protected String getDomainType() {
