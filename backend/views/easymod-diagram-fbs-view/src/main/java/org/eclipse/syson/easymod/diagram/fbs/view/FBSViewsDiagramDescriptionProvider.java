@@ -114,9 +114,6 @@ public class FBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDe
                 .nodeTools(this.createFunctionTool());
         sections.add(sectionBuilder.build());
 
-        // add extra section for existing elements
-        sections.add(this.toolDescriptionService.addElementsDiagramToolSection());
-
         return sections.toArray(DiagramToolSection[]::new);
     }
 

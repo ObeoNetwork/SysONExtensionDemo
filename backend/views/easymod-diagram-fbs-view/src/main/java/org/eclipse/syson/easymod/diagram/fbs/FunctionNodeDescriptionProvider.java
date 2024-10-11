@@ -15,7 +15,6 @@ package org.eclipse.syson.easymod.diagram.fbs;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.diagrams.description.EdgeDescription;
@@ -158,7 +157,7 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 .body(callEditService.build());
 
         var edgeTools = new ArrayList<EdgeTool>();
-        edgeTools.addAll(getEdgeTools(cache));
+        edgeTools.add(createFlowConnectionUsageEdgeTool(nodeDescription));
 
         return this.diagramBuilderHelper.newNodePalette()
                 .deleteTool(deleteTool.build())
@@ -167,14 +166,6 @@ public class FunctionNodeDescriptionProvider extends AbstractNodeDescriptionProv
                 .dropNodeTool(this.createDropFromDiagramTool(cache))
                 .toolSections(this.createToolSections(cache))
                 .build();
-    }
-
-    protected Collection<EdgeTool> getEdgeTools(IViewDiagramElementFinder cache) {
-        return cache.getNodeDescriptions().stream()
-                .map(this::generateEdgeTools)
-                .flatMap(Collection::stream)
-                .filter(Objects::nonNull)
-                .toList();
     }
 
     protected Collection<EdgeTool> generateEdgeTools(NodeDescription targetNodeDescription) {

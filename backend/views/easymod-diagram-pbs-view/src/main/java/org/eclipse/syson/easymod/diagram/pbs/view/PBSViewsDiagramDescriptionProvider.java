@@ -118,9 +118,6 @@ public class PBSViewsDiagramDescriptionProvider extends AbstractEasyModDiagramDe
                 .nodeTools(this.createLogicalConsituentTool());
         sections.add(sectionBuilder.build());
 
-        // add extra section for existing elements
-        sections.add(this.toolDescriptionService.addElementsDiagramToolSection());
-
         return sections.toArray(DiagramToolSection[]::new);
     }
 
