@@ -35,30 +35,23 @@ import org.eclipse.syson.util.SysMLMetamodelHelper;
 public class MethodologyFormView {
     public static final String REP_NAME = "Methodology";
 
-    private static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-            + "Aenean dictum laoreet egestas. Etiam nec velit placerat, eleifend mauris a, placerat eros. "
-            + "Morbi id lorem sit amet ligula lacinia dapibus. Nullam efficitur bibendum est eget fermentum. Morbi ut orci sit amet neque eleifend gravida. "
-            + "Nam sed commodo orci. Phasellus ullamcorper velit eget euismod fermentum. Curabitur aliquet est quis pellentesque sagittis. "
-            + "Curabitur vitae ipsum feugiat, pellentesque elit id, auctor mauris. Sed lacinia quam at turpis euismod, vitae aliquet diam pulvinar. "
-            + "In arcu lorem, sagittis ut ligula vel, molestie gravida odio.";
-
     private static final String FUNCTION_PAGE_LABEL = "Functional flow";
 
     private static final String PRODUCT_PAGE_LABEL = "Logical flow";
 
     private static final String ALLOCATION_PAGE_LABEL = "Allocation cockpit";
 
-    private static final String FUNCTION_DESCRIPTION = "Define the functions and subfunctions of your system.";
+    private static final String FUNCTION_DESCRIPTION = "Define the functions of your system and their interaction.";
 
-    private static final String PRODUCT_DESCRIPTION = "Define the product and its components.";
+    private static final String PRODUCT_DESCRIPTION = "Define the logical architecture of your system.";
 
-    private static final String ALLOCATION_DESCRIPTION = "Define which function is allocated or not.";
+    private static final String ALLOCATION_DESCRIPTION = "Define the allocation process.";
 
-    private static final String FUNCTION_LONG_DESCRIPTION = LOREM_IPSUM;
+    private static final String FUNCTION_LONG_DESCRIPTION = "The Functional Flow Diagram allows users to visually model and organize the functions and their interactions. Users can create, connect, and manage functional blocks to represent the functional architecture of the system.";
 
-    private static final String PRODUCT_LONG_DESCRIPTION = LOREM_IPSUM;
+    private static final String PRODUCT_LONG_DESCRIPTION = "The Logical Flow Diagram enables users to define and visualize the system's logical architecture, detailing the interactions between subsystems. Users can create, allocate, and connect logical components, illustrating how different parts of the system work together to fulfill the system's functional requirements. This diagram helps in refining system structure, understanding component dependencies, and ensuring the logical integrity of the overall architecture.";
 
-    private static final String ALLOCATION_LONG_DESCRIPTION = LOREM_IPSUM;
+    private static final String ALLOCATION_LONG_DESCRIPTION = " In the Allocation Cockpit, users can visualize the progress of the allocation process through interactive charts and detailed tables. This feature provides real-time insights into how functions are being assigned to components, helping users track and manage the allocation process efficiently. The charts offer a graphical representation of allocation progress, while the tables provide precise data for a more granular view, ensuring users can easily monitor their system's development and allocation completion.";
 
     private static final String FUNCTION_IMAGE_PATH = "/diagram-images/diagram.svg";
 
