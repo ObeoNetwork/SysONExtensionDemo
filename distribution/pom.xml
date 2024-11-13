@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>org.eclipse.syson.easymod</groupId>
 		<artifactId>easymod-parent</artifactId>
-		<version>2024.9.0</version>
+		<version>2024.11.0</version>
 	</parent>
 
 	<artifactId>easymod-distribution</artifactId>
@@ -28,7 +28,7 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<sirius.web.version>2024.9.0</sirius.web.version>
+		<sirius.web.version>2024.11.0</sirius.web.version>
 	</properties>
 
     <repositories>

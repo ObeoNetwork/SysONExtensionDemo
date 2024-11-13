@@ -38,12 +38,12 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.util.Timeout;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.components.collaborative.dto.CreateRepresentationInput;
-import org.eclipse.sirius.components.core.RepresentationMetadata;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.core.api.IObjectService;
 import org.eclipse.sirius.components.core.api.IRepresentationDescriptionSearchService;
 import org.eclipse.sirius.components.core.api.IURLParser;
 import org.eclipse.sirius.components.representations.IRepresentationDescription;
+import org.eclipse.sirius.web.application.representation.dto.RepresentationMetadataDTO;
 import org.eclipse.sirius.web.application.representation.services.RepresentationApplicationService;
 import org.eclipse.syson.easymod.diagram.form.methodology.utils.CreateRepresentationVariables;
 import org.slf4j.Logger;
@@ -94,12 +94,12 @@ public class MethodologyFormServices {
      *            the editingContext in which to search.
      * @return all diagrams existing in the editing context that have the given representation description ids.
      */
-    public List<RepresentationMetadata> getAllRepresentations(EObject object, List<String> representationDescriptionIds,
+    public List<RepresentationMetadataDTO> getAllRepresentations(EObject object, List<String> representationDescriptionIds,
             IEditingContext editingContext) {
-        Page<RepresentationMetadata> representationsPage = representationApplicationService
+        Page<RepresentationMetadataDTO> representationsPage = representationApplicationService
                 .findAllByEditingContextId(editingContext.getId(), Pageable.ofSize(20));
         return representationsPage.stream().filter(desc -> {
-            List<String> sourceIds = this.urlParser.getParameterValues(desc.getDescriptionId()).get("sourceElementId");
+            List<String> sourceIds = this.urlParser.getParameterValues(desc.descriptionId()).get("sourceElementId");
             if (sourceIds != null && sourceIds.size() > 0) {
                 return representationDescriptionIds.contains(sourceIds.get(0));
             }
@@ -114,8 +114,8 @@ public class MethodologyFormServices {
      *            the representation with the label to display
      * @return the label f the representation
      */
-    public String getLabel(RepresentationMetadata representationMetadata) {
-        return representationMetadata.getLabel();
+    public String getLabel(RepresentationMetadataDTO representationMetadata) {
+        return representationMetadata.label();
     }
 
     /**
