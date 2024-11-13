@@ -29,6 +29,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <sirius.web.version>2024.11.0</sirius.web.version>
         <syson.version>2024.11.0</syson.version>
         <eef.version>2.1.5-SNAPSHOT</eef.version>
     </properties>
@@ -46,14 +47,14 @@
             <id>github-sirius-components</id>
             <url>https://maven.pkg.github.com/eclipse-sirius/sirius-components</url>
         </repository>
-		<repository>
-			<id>github-sirius-emfjson</id>
-			<url>https://maven.pkg.github.com/eclipse-sirius/sirius-emf-json</url>
-		</repository>
-		<repository>
-			<id>github-syson</id>
-			<url>https://maven.pkg.github.com/eclipse-syson/syson</url>
-		</repository>
+        <repository>
+            <id>github-sirius-emfjson</id>
+            <url>https://maven.pkg.github.com/eclipse-sirius/sirius-emf-json</url>
+        </repository>
+        <repository>
+            <id>github-syson</id>
+            <url>https://maven.pkg.github.com/eclipse-syson/syson</url>
+        </repository>
         <repository>
             <id>Eclipse EEF</id>
             <name>EEF Repository - Snapshots</name>
@@ -65,11 +66,16 @@
     </repositories>
     
     <dependencies>
-    	<dependency>
-    		<groupId>org.eclipse.syson</groupId>
-    		<artifactId>syson-diagram-common-view</artifactId>
-    		<version>${syson.version}</version>
-    	</dependency>
+        <dependency>
+            <groupId>org.eclipse.sirius</groupId>
+            <artifactId>sirius-components-forms</artifactId>
+            <version>${sirius.web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.syson</groupId>
+            <artifactId>syson-diagram-common-view</artifactId>
+            <version>${syson.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
