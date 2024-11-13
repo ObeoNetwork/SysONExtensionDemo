@@ -18,7 +18,7 @@
 
 	<groupId>org.eclipse.syson.easymod</groupId>
 	<artifactId>easymod-parent</artifactId>
-	<version>2024.9.0</version>
+	<version>2024.11.0</version>
 
 	<name>easymod</name>
 	<description>Easymod root module</description>

@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.syson.easymod.diagram.services;
 
-import org.eclipse.sirius.components.core.RepresentationMetadata;
 import org.eclipse.sirius.components.core.api.IIdentityServiceDelegate;
+import org.eclipse.sirius.web.application.representation.dto.RepresentationMetadataDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,21 +26,21 @@ public class RepresentationMetadataIdentityServiceDelegate implements IIdentityS
 
     @Override
     public boolean canHandle(Object object) {
-        return object instanceof RepresentationMetadata;
+        return object instanceof RepresentationMetadataDTO;
     }
 
     @Override
     public String getId(Object object) {
-        if (object instanceof RepresentationMetadata rm) {
-            return rm.getId();
+        if (object instanceof RepresentationMetadataDTO rm) {
+            return rm.id().toString();
         }
         return null;
     }
 
     @Override
     public String getKind(Object object) {
-        if (object instanceof RepresentationMetadata rm) {
-            return rm.getKind();
+        if (object instanceof RepresentationMetadataDTO rm) {
+            return rm.kind();
         }
         return null;
     }
