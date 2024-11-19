@@ -76,6 +76,11 @@
             <artifactId>syson-diagram-common-view</artifactId>
             <version>${syson.version}</version>
         </dependency>
+    	<dependency>
+    		<groupId>org.eclipse.syson.easymod</groupId>
+    		<artifactId>easymod-services</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
     </dependencies>
 
     <build>
