@@ -18,6 +18,7 @@ import org.eclipse.sirius.components.collaborative.api.IRepresentationDescriptio
 import org.eclipse.sirius.components.collaborative.api.RepresentationDescriptionMetadata;
 import org.eclipse.sirius.components.core.api.IEditingContext;
 import org.eclipse.sirius.components.representations.IRepresentationDescription;
+import org.eclipse.syson.easymod.form.fbstopbs.descriptions.FBSToPBSFormDescriptionProvider;
 import org.springframework.stereotype.Service;
 
 /**

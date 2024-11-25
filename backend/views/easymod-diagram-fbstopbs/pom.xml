@@ -72,6 +72,11 @@
             <version>${sirius.web.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.sirius</groupId>
+            <artifactId>sirius-components-tables</artifactId>
+            <version>${sirius.web.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.syson</groupId>
             <artifactId>syson-diagram-common-view</artifactId>
             <version>${syson.version}</version>

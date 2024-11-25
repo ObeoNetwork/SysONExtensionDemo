@@ -152,7 +152,7 @@ public class EasyModCommonServices {
         return element -> element.getType().stream().anyMatch(t -> t != null && qualifiedName != null && qualifiedName.equals(t.getQualifiedName()));
     }
 
-    protected List<Notifier> extractNotifier(EObject eObject) {
+    public List<Notifier> extractNotifier(EObject eObject) {
         ArrayList<Notifier> notifiersList = new ArrayList<>();
         eObject.eResource().getAllContents().forEachRemaining(notifiersList::add);
         return notifiersList;

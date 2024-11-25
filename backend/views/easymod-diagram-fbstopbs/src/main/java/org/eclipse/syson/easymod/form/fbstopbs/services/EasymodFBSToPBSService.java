@@ -19,6 +19,7 @@ import org.eclipse.syson.easymod.diagram.services.EasyModCommonServices;
 import org.eclipse.syson.sysml.ActionUsage;
 import org.eclipse.syson.sysml.AllocationUsage;
 import org.eclipse.syson.sysml.Element;
+import org.eclipse.syson.sysml.PartUsage;
 
 /**
  * FBS to PBS form services.
@@ -60,6 +61,19 @@ public class EasymodFBSToPBSService extends EasyModCommonServices {
                 .map(ActionUsage.class::cast)
                 .filter(function -> !allocatedFunctions.contains(function))
                 .toList();
+    }
+
+    public PartUsage getAllocatedProductIfExist(ActionUsage function) {
+        return extractNotifier(function).stream()
+                .filter(AllocationUsage.class::isInstance)
+                .map(AllocationUsage.class::cast)
+                .filter(allocation -> allocation.getSource().contains(function))
+                .map(AllocationUsage::getTarget)
+                .flatMap(List::stream)
+                .filter(PartUsage.class::isInstance)
+                .map(PartUsage.class::cast)
+                .findFirst()
+                .orElse(null);
     }
 
 }
