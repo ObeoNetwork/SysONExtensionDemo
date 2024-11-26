@@ -69,13 +69,13 @@ public class MethodologyFormView {
 
     private static final String PRODUCT_DIAGRAM_ID = "c4bb502e-03d9-353e-aea2-de3128fc68aa";
 
-    private static final String ALLOCATION_DIAGRAM_ID = "5fb6a51c-bacd-395b-a021-ecf81e8ffa41";
+    private static final String ALLOCATION_FORM_ID = "5fb6a51c-bacd-395b-a021-ecf81e8ffa41";
 
     private static final String FUNCTION_DIAGRAM_ELEMENT_ID = "42c7d51d-ddc0-3f80-ba8f-d41bd05bb069";
 
     private static final String PRODUCT_DIAGRAM_ELEMENT_ID = "ae994350-3a1e-392b-94f7-cf2377699ca5";
 
-    private static final String ALLOCATION_DIAGRAM_ELEMENT_ID = "c56356be-fdca-3129-a999-9bf6cfd3c0b8";
+    private static final String ALLOCATION_FORM_ELEMENT_ID = "08472616-8f25-3e05-8e9b-a51b890bb71f";
 
     public FormDescription createFormDescription() {
         String domainType = SysMLMetamodelHelper.buildQualifiedName(SysmlPackage.eINSTANCE.getNamespace());
@@ -111,7 +111,7 @@ public class MethodologyFormView {
     private void createAllocationPage(FormDescription formDescription) {
         PageDescription fbsToPbsAllocationPageDescription = createPage("FbsToPbsAllocation", MethodologyFormView.ALLOCATION_PAGE_LABEL,
                 MethodologyFormView.ALLOCATION_DESCRIPTION, MethodologyFormView.ALLOCATION_LONG_DESCRIPTION, ALLOCATION_IMAGE_PATH, "create AC",
-                MethodologyFormView.ALLOCATION_DIAGRAM_NAME, MethodologyFormView.ALLOCATION_DIAGRAM_ID, MethodologyFormView.ALLOCATION_DIAGRAM_ELEMENT_ID);
+                MethodologyFormView.ALLOCATION_DIAGRAM_NAME, MethodologyFormView.ALLOCATION_FORM_ID, MethodologyFormView.ALLOCATION_FORM_ELEMENT_ID);
         formDescription.getPages().add(fbsToPbsAllocationPageDescription);
     }
 
@@ -187,12 +187,7 @@ public class MethodologyFormView {
         button.setLabelExpression("");
         button.setButtonLabelExpression(buttonLabel);
         var createOperation = ViewFactory.eINSTANCE.createChangeContext();
-        String createRepresentationRequestURL = "'siriusComponents://representationDescription"
-                + "?kind=diagramDescription"
-                + "&sourceKind=view"
-                + "&sourceId=" + diagramID
-                + "&sourceElementId=" + diagramDescriptionID
-                + "'";
+        String createRepresentationRequestURL = getRepresentationID(diagramID, diagramDescriptionID);
         createOperation.setExpression(AQLUtils.getSelfServiceCallExpression("createRepresentation", List.of(createRepresentationRequestURL, "editingContext")));
         button.getBody().add(createOperation);
         flexboxContainer.getChildren().add(button);
@@ -207,6 +202,21 @@ public class MethodologyFormView {
         flexboxContainer.getChildren().add(representationsViewer);
 
         return groupDescription;
+    }
+
+    private String getRepresentationID(String diagramID, String diagramDescriptionID) {
+        String createRepresentationRequestURL;
+        if (ALLOCATION_FORM_ELEMENT_ID.equals(diagramDescriptionID)) {
+            createRepresentationRequestURL = "'" + ALLOCATION_FORM_ELEMENT_ID + "'";
+        } else {
+            createRepresentationRequestURL = "'siriusComponents://representationDescription"
+                    + "?kind=diagramDescription"
+                    + "&sourceKind=view"
+                    + "&sourceId=" + diagramID
+                    + "&sourceElementId=" + diagramDescriptionID
+                    + "'";
+        }
+        return createRepresentationRequestURL;
     }
 
 }

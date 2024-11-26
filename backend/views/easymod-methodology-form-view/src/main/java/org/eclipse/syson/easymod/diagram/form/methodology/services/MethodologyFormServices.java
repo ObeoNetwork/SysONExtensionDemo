@@ -94,17 +94,25 @@ public class MethodologyFormServices {
      *            the editingContext in which to search.
      * @return all diagrams existing in the editing context that have the given representation description ids.
      */
-    public List<RepresentationMetadataDTO> getAllRepresentations(EObject object, List<String> representationDescriptionIds,
-            IEditingContext editingContext) {
-        Page<RepresentationMetadataDTO> representationsPage = representationApplicationService
-                .findAllByEditingContextId(editingContext.getId(), Pageable.ofSize(20));
-        return representationsPage.stream().filter(desc -> {
-            List<String> sourceIds = this.urlParser.getParameterValues(desc.descriptionId()).get("sourceElementId");
-            if (sourceIds != null && sourceIds.size() > 0) {
-                return representationDescriptionIds.contains(sourceIds.get(0));
+    public List<RepresentationMetadataDTO> getAllRepresentations(EObject object, List<String> representationDescriptionIds, IEditingContext editingContext) {
+        Page<RepresentationMetadataDTO> representationsPage = representationApplicationService.findAllByEditingContextId(editingContext.getId(), Pageable.ofSize(20));
+
+        return representationsPage.stream()
+                .filter(desc -> representationDescriptionIds.contains(getSourceElementIdFromRepresentationMetadataDTO(desc)))
+                .toList();
+    }
+
+    private String getSourceElementIdFromRepresentationMetadataDTO(RepresentationMetadataDTO representationMetadataDTO) {
+        String result = null;
+        if (representationMetadataDTO.descriptionId().contains("&")) {
+            List<String> sourceElementIds = this.urlParser.getParameterValues(representationMetadataDTO.descriptionId()).get("sourceElementId");
+            if (sourceElementIds != null && !sourceElementIds.isEmpty()) {
+                result = sourceElementIds.get(0);
             }
-            return false;
-        }).toList();
+        } else {
+            result = representationMetadataDTO.descriptionId();
+        }
+        return result;
     }
 
     /**
