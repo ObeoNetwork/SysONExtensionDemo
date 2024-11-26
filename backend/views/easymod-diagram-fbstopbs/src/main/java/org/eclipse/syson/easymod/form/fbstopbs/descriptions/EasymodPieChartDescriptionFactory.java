@@ -36,9 +36,9 @@ public class EasymodPieChartDescriptionFactory extends AbstractControlDescriptio
 
     private static final String PIECHART_LABEL_EXPRESSION = "FBS to PBS Allocations";
 
-    private static final String PIECHART_KEYS_EXPRESSION = "aql:Sequence{'Allocated', 'To allocate'}";
+    private static final String PIECHART_KEYS_EXPRESSION = "aql:self.getPieChartKeyValue()";
 
-    private static final String PIECHART_VALUES_EXPRESSION = "aql:self.getAttributionPieChartData()}";
+    private static final String PIECHART_VALUES_EXPRESSION = "aql:self.getAttributionPieChartData()";
 
     private static final String PIECHART_LABEL = "Distribution";
 
@@ -102,6 +102,7 @@ public class EasymodPieChartDescriptionFactory extends AbstractControlDescriptio
         return variableManager -> {
             return PieChartStyle.newPieChartStyle()
                     .fontSize(16)
+                    .colors(List.of("rgb(121,188,162)", "rgb(250,114,42)"))
                     .build();
         };
     }

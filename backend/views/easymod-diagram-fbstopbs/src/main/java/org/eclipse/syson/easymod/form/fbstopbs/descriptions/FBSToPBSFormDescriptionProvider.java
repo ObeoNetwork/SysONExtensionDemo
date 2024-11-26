@@ -93,7 +93,7 @@ public class FBSToPBSFormDescriptionProvider {
 
         return GroupDescription.newGroupDescription(this.getIdFromName(FBSToPBSFormDescriptionProvider.FBS_TO_PBS_FORM_GROUP_ID))
                 .idProvider(new GetOrCreateRandomIdProvider())
-                .labelProvider(x -> FBSToPBSFormDescriptionProvider.DESCRIPTION_NAME)
+                .labelProvider(x -> "")
                 .displayModeProvider(x -> GroupDisplayMode.LIST)
                 .semanticElementsProvider(variableManager -> this.getSelfSemanticElementsProvider(interpreter, variableManager))
                 .controlDescriptions(List.of(piechartDescription, tableDescription))

@@ -42,6 +42,28 @@ public class EasymodFBSToPBSService extends EasyModCommonServices {
         return List.of(allocatedFunctions.size(), unallocatedFunctions.size());
     }
 
+    /**
+     * Return the PieChart key values.
+     * 
+     * @param element
+     *            the Element the piechart form is part of.
+     * @return the list of key value : {Allocated, To allocate}
+     */
+    public List<String> getPieChartKeyValue(Element element) {
+        String toAllocate = "To allocate";
+        String allocated = "Allocated";
+        List<Notifier> notifiers = this.extractNotifier(element);
+        List<ActionUsage> allocatedFunctions = this.getAllocatedFunctions(notifiers);
+        List<ActionUsage> unallocatedFunctions = this.getUnallocatedFunctions(notifiers);
+        if (allocatedFunctions.size() == 0) {
+            allocated = "";
+        }
+        if (unallocatedFunctions.size() == 0) {
+            toAllocate = "";
+        }
+        return List.of(allocated, toAllocate);
+    }
+
     private List<ActionUsage> getAllocatedFunctions(List<Notifier> notifiers) {
         return notifiers.stream()
                 .filter(AllocationUsage.class::isInstance)
